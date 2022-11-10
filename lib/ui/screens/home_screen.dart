@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:notes_app/core/models/note_model.dart';
+import 'package:notes_app/core/provider/auth_provider.dart';
 import 'package:notes_app/core/provider/notes_provider.dart';
+import 'package:notes_app/core/provider/task_provider.dart';
 import 'package:notes_app/core/src/constants.dart';
 import 'package:provider/provider.dart';
 
 ///
-class HomeWidget extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   ///
-  const HomeWidget({Key? key}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeWidget> createState() => _HomeWidgetState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeWidgetState extends State<HomeWidget> {
+class _HomeScreenState extends State<HomeScreen> {
   Future<void> _signOut() async {
-    await Provider.of<NotesProvider>(context, listen: false).getAllNotes();
-    //await Provider.of<AuthProvider>(context, listen: false).singOut(context);
+    //await Provider.of<NotesProvider>(context, listen: false).getAllNotes();
+    await Provider.of<AuthProvider>(context, listen: false).singOut(context);
   }
 
   @override
@@ -70,6 +72,10 @@ class NoteCardWidget extends StatelessWidget {
   ///
   const NoteCardWidget({super.key});
 
+  Future<void> _detailNotePage(BuildContext context) async {
+    await Navigator.pushNamed(context, '/home/detail');
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<NoteModel> note =
@@ -84,7 +90,11 @@ class NoteCardWidget extends StatelessWidget {
         return Card(
           color: colorPallete[note[index].colorNote],
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              Provider.of<TaskProvider>(context, listen: false)
+                  .takeNoteInfo(note[index]);
+              _detailNotePage(context);
+            },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(

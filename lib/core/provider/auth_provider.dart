@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/core/supabase_services/auth_service.dart';
-import 'package:notes_app/ui/screens/home_widget.dart';
+import 'package:notes_app/ui/screens/home_screen.dart';
 import 'package:notes_app/ui/screens/login_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -34,7 +34,7 @@ class AuthProvider extends ChangeNotifier {
         await Navigator.pushAndRemoveUntil<void>(
           context,
           MaterialPageRoute<void>(
-            builder: (BuildContext context) => const HomeWidget(),
+            builder: (BuildContext context) => const HomeScreen(),
           ),
           ModalRoute.withName('/home'),
         );

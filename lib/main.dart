@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:notes_app/core/api/api.dart';
 import 'package:notes_app/core/provider/auth_provider.dart';
 import 'package:notes_app/core/provider/notes_provider.dart';
-import 'package:notes_app/core/supabase_services/note_service.dart';
-import 'package:notes_app/ui/screens/home_widget.dart';
+import 'package:notes_app/core/provider/task_provider.dart';
+import 'package:notes_app/ui/screens/detail_screen.dart';
+import 'package:notes_app/ui/screens/home_screen.dart';
 import 'package:notes_app/ui/screens/login_screen.dart';
 import 'package:notes_app/ui/screens/register_screen.dart';
 import 'package:notes_app/ui/screens/splash_screen.dart';
@@ -26,6 +27,9 @@ Future<void> main() async {
         provider.ChangeNotifierProvider<NotesProvider>(
           create: (_) => NotesProvider(),
         ),
+        provider.ChangeNotifierProvider<TaskProvider>(
+          create: (_) => TaskProvider(),
+        ),
       ],
       child: const Main(),
     ),
@@ -41,10 +45,11 @@ class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       //home: const LoginScreen(),
-      initialRoute: '/login',
+      initialRoute: '/splash',
       routes: {
         '/splash': (context) => const SplashScreen(),
-        '/home': (context) => const HomeWidget(),
+        '/home': (context) => const HomeScreen(),
+        '/home/detail': (context) => const DetailScreen(),
         '/login': (context) => const LoginScreen(),
         '/login/register': (context) => const RegisterScreen(),
       },
