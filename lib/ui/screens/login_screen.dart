@@ -126,7 +126,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               TextButton(
                                 onPressed: () {
                                   Navigator.pushNamed(
-                                      context, '/login/register');
+                                    context,
+                                    '/login/register',
+                                  );
                                 },
                                 style: const ButtonStyle(),
                                 child: const Text(

@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:notes_app/core/provider/auth_provider.dart';
-import 'package:notes_app/core/supabase_services/auth_service.dart';
+import 'package:notes_app/core/models/note_model.dart';
+import 'package:notes_app/core/provider/notes_provider.dart';
+import 'package:notes_app/core/src/constants.dart';
 import 'package:provider/provider.dart';
 
 ///
@@ -17,19 +16,23 @@ class HomeWidget extends StatefulWidget {
 
 class _HomeWidgetState extends State<HomeWidget> {
   Future<void> _signOut() async {
-    await Provider.of<AuthProvider>(context, listen: false).singOut(context);
+    await Provider.of<NotesProvider>(context, listen: false).getAllNotes();
+    //await Provider.of<AuthProvider>(context, listen: false).singOut(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const DrawerWidget(),
-      appBar: AppBar(title: const Text("data"), actions: [
-        IconButton(
-          onPressed: () => _signOut(),
-          icon: const Icon(Icons.abc),
-        ),
-      ]),
+      appBar: AppBar(
+        title: const Text("data"),
+        actions: [
+          IconButton(
+            onPressed: () => _signOut(),
+            icon: const Icon(Icons.abc),
+          ),
+        ],
+      ),
       body: const GridViewWidger(),
     );
   }
@@ -42,17 +45,78 @@ class GridViewWidger extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<List<NoteModel>>(
+      future: Provider.of<NotesProvider>(context, listen: false).getAllNotes(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: Text('fg'),
+          );
+        }
+        if (snapshot.hasData) {
+          return const NoteCardWidget();
+        }
+
+        return const Text('data');
+      },
+    );
+  }
+}
+
+/// Widget
+class NoteCardWidget extends StatelessWidget {
+  ///
+  //final List<NoteModel> _noteList = [];
+  ///
+  const NoteCardWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<NoteModel> note =
+        Provider.of<NotesProvider>(context).getNotesProvider;
+
     return MasonryGridView.count(
       crossAxisCount: 2,
-      mainAxisSpacing: 2,
-      crossAxisSpacing: 2,
+      mainAxisSpacing: 10,
+      crossAxisSpacing: 10,
+      itemCount: note.length,
       itemBuilder: (context, index) {
-        const int _randmItr = 100000000;
-        final _random = Random();
-        final int itr = _random.nextInt(_randmItr);
-
         return Card(
-          child: Text('ssssdsf $itr'),
+          color: colorPallete[note[index].colorNote],
+          child: InkWell(
+            onTap: () {},
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        note[index].title,
+                        overflow: TextOverflow.clip,
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.access_alarm),
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  Row(
+                    children: [
+                      Text(
+                        note[index].content ?? '',
+                        overflow: TextOverflow.fade,
+                        maxLines: 5,
+                        softWrap: false,
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
         );
       },
     );

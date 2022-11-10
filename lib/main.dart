@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/core/api/api.dart';
 import 'package:notes_app/core/provider/auth_provider.dart';
-import 'package:notes_app/core/supabase_services/auth_service.dart';
+import 'package:notes_app/core/provider/notes_provider.dart';
+import 'package:notes_app/core/supabase_services/note_service.dart';
 import 'package:notes_app/ui/screens/home_widget.dart';
 import 'package:notes_app/ui/screens/login_screen.dart';
 import 'package:notes_app/ui/screens/register_screen.dart';
@@ -21,6 +22,9 @@ Future<void> main() async {
       providers: [
         provider.ChangeNotifierProvider<AuthProvider>(
           create: (_) => AuthProvider(),
+        ),
+        provider.ChangeNotifierProvider<NotesProvider>(
+          create: (_) => NotesProvider(),
         ),
       ],
       child: const Main(),

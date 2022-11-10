@@ -3,7 +3,6 @@ import 'package:notes_app/core/supabase_services/auth_service.dart';
 import 'package:notes_app/ui/screens/home_widget.dart';
 import 'package:notes_app/ui/screens/login_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:provider/provider.dart';
 
 ///
 class AuthProvider extends ChangeNotifier {
