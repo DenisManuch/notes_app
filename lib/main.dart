@@ -3,6 +3,7 @@ import 'package:notes_app/core/api/api.dart';
 import 'package:notes_app/core/provider/auth_provider.dart';
 import 'package:notes_app/core/provider/notes_provider.dart';
 import 'package:notes_app/core/provider/task_provider.dart';
+import 'package:notes_app/ui/screens/add_note_screen.dart';
 import 'package:notes_app/ui/screens/detail_screen.dart';
 import 'package:notes_app/ui/screens/home_screen.dart';
 import 'package:notes_app/ui/screens/login_screen.dart';
@@ -44,7 +45,6 @@ class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      //home: const LoginScreen(),
       initialRoute: '/splash',
       routes: {
         '/splash': (context) => const SplashScreen(),
@@ -52,7 +52,19 @@ class Main extends StatelessWidget {
         '/home/detail': (context) => const DetailScreen(),
         '/login': (context) => const LoginScreen(),
         '/login/register': (context) => const RegisterScreen(),
+        '/home/addnote': (context) => const AddNoteScreen(),
       },
+      theme: ThemeData(
+          brightness: Brightness.light,
+          primaryColor: const Color(0xFF4859F2),
+          backgroundColor: const Color(0xFF0A0C24),
+          textTheme: const TextTheme(
+            headline1: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+            headline2: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          )),
     );
   }
 }

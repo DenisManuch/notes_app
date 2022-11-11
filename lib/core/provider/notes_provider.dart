@@ -16,7 +16,10 @@ class NotesProvider extends ChangeNotifier {
   /// get all notes from
   Future<List<NoteModel>> getAllNotes() async {
     try {
-      _listOfNotesProvider = await _noteService.fetchNotes();
+      _listOfNotesProvider = await _noteService.fetchNotes()
+        ..sort(
+          (x, y) => y.modifyTime.difference(x.modifyTime).inMilliseconds,
+        );
       notifyListeners();
 
       return [];
@@ -25,6 +28,26 @@ class NotesProvider extends ChangeNotifier {
     }
 
     return [];
+  }
+
+  ///
+  Future<void> createNoteProvider(
+    String title,
+    String content,
+    int color,
+  ) async {
+    if (title.trim().isEmpty) {
+      //return null;
+      debugPrint('Title is empty');
+    } else {
+      await _noteService.createNote(title.trim(), content.trim(), color);
+      print(_listOfNotesProvider);
+      _listOfNotesProvider.clear();
+      _listOfNotesProvider = await _noteService.fetchNotes()..sort(
+          (x, y) => y.modifyTime.difference(x.modifyTime).inMilliseconds,
+        );
+      notifyListeners();
+    }
   }
 
   ///
