@@ -5,7 +5,6 @@ import 'package:notes_app/core/provider/auth_provider.dart';
 import 'package:notes_app/core/provider/notes_provider.dart';
 import 'package:notes_app/core/provider/task_provider.dart';
 import 'package:notes_app/core/src/constants.dart';
-import 'package:notes_app/ui/screens/add_note_screen.dart';
 import 'package:provider/provider.dart';
 
 ///
@@ -25,13 +24,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   ///
   Future<void> _detailNotePage(NoteModel note) async {
-    Provider.of<TaskProvider>(context, listen: false).takeNoteInfo(note);
-    await Navigator.pushNamed(context, '/home/detail');
+    //Provider.of<TaskProvider>(context, listen: false).takeNoteInfo(note);
+   await Provider.of<TaskProvider>(context, listen: false)
+        .getAllTaskById(note);
+    if(mounted) await Navigator.pushNamed(context, '/home/detail');
   }
 
-  Future<void> _updateNote(NoteModel note) async {
-    Provider.of<TaskProvider>(context, listen: false).takeNoteInfo(note);
-  }
+  // Future<void> _updateNote(NoteModel note) async {
+  //   Provider.of<TaskProvider>(context, listen: false).takeNoteInfo(note);
+  // }
 
   @override
   void initState() {
@@ -49,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text("data"),
         actions: [
           IconButton(
-            onPressed: () => null,
+            onPressed: () => debugPrint(''),
             icon: const Icon(Icons.abc),
           ),
           IconButton(
@@ -67,22 +68,15 @@ class _HomeScreenState extends State<HomeScreen> {
           return Column(children: note.map(_toNoteWidget).toList());
         },
       ),
-      // body: StreamBuilder<dynamic>(
-      //   stream: Provider.of<NotesProvider>(context).test(),
-      //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-      //     return Container(
-      //       child: Text('${snapshot.data}'),
-      //     );
-      //   },
-      // ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.pushNamed(
-              context,
-              '/home/addnote',
-            );
-          },
-          child: const Icon(Icons.abc),),
+        onPressed: () {
+          Navigator.pushNamed(
+            context,
+            '/home/addnote',
+          );
+        },
+        child: const Icon(Icons.abc),
+      ),
     );
   }
 
@@ -121,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
               note.content ?? 'description',
               maxLines: 5,
             ),
-            onLongPress: () => _updateNote(note),
+            //onLongPress: () => _updateNote(note),
             onTap: () => _detailNotePage(note),
           ),
         ),

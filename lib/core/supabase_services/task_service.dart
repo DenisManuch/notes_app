@@ -29,11 +29,41 @@ class TaskService {
   }
 
   ///
+  Future<void> checkTaskUpdate(int taskId, bool checkValue) async {
+    try {
+      await supabase.from(task).update(<String, dynamic>{
+        'check_task': checkValue,
+      }).eq('id', taskId);
+    } catch (e) {
+      debugPrint('$e');
+    }
+  }
+
+  ///
+  Future<void> createTask(String title, int noteId) async {
+    try {
+      await supabase.from(task).insert({'text': title, 'note_id': noteId});
+    } catch (e) {
+      debugPrint('$e');
+    }
+  }
+
+  ///
+  Future<void> deleteTask(int taskId) async {
+    try {
+      await supabase.from(task).delete().eq('id', taskId);
+    } catch (e) {
+      debugPrint('$e');
+    }
+  }
+
+  ///
   TaskModel toTask(Map<String, dynamic> result) {
     return TaskModel(
       int.parse(result['id'].toString()),
       check: result['check_task'] as bool,
       result['text'].toString(),
+      int.parse(result['note_id'].toString()),
     );
   }
 }

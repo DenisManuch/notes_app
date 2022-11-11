@@ -6,8 +6,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 ///
 class AuthProvider extends ChangeNotifier {
-  ///
-  bool _clientSession = true;
 
   ///
   final AuthService _authService = AuthService();
@@ -29,9 +27,8 @@ class AuthProvider extends ChangeNotifier {
       final trimPassword = password.trim();
       final success =
           await _authService.signInWithPassword(trimEmail, trimPassword);
-      print(success);
       if (success) {
-        await Navigator.pushAndRemoveUntil<void>(
+         await Navigator.pushAndRemoveUntil<void>(
           context,
           MaterialPageRoute<void>(
             builder: (BuildContext context) => const HomeScreen(),

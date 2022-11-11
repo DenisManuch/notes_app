@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/core/models/note_model.dart';
-import 'package:notes_app/core/provider/notes_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 ///
@@ -17,14 +15,17 @@ class NoteService {
     try {
       final List<dynamic> respons = await supabase.from(notes).select('*');
 
-      return respons.map((dynamic e) => toNote(e)).toList();
+      return respons
+          .map((dynamic e) => toNote(e as Map<String, dynamic>))
+          .toList();
     } catch (e) {
       debugPrint('$e');
 
       return [];
     }
   }
-///
+
+  ///
   Future<void> createNote(String title, String content, int color) async {
     try {
       await supabase
@@ -36,7 +37,7 @@ class NoteService {
   }
 
   ///
-  NoteModel toNote(dynamic result) {
+  NoteModel toNote(Map<String, dynamic> result) {
     return NoteModel(
       int.parse(result['id'].toString()),
       result['title'].toString(),

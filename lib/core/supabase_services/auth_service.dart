@@ -25,7 +25,7 @@ class AuthService {
   ///
   Future<bool> signInWithPassword(String email, String password) async {
     try {
-      final res = await supabase.auth
+      await supabase.auth
           .signInWithPassword(email: email, password: password);
       //debugPrint(res.user as String);
 
@@ -40,7 +40,7 @@ class AuthService {
   ///
   Future<bool> signOut() async {
     final res = supabase.auth.signOut();
-    debugPrint('${res}');
+    debugPrint('');
 
     return true;
   }
@@ -62,20 +62,4 @@ class AuthService {
       return false;
     }
   }
-
-  ///
-  // Future<bool> recoverSession() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   if (prefs.containsKey(supabaseSessionKey)) {
-  //     final jsonStr = prefs.getString(supabaseSessionKey) ?? '';
-  //     final response = await _client.recoverSession(jsonStr);
-  //     if (response.error == null) {
-  //       await _persistSession(response.data ?? const Session(accessToken: ''));
-
-  //       return true;
-  //     }
-  //   }
-
-  //   return false;
-  // }
 }

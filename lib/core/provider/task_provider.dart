@@ -10,6 +10,7 @@ class TaskProvider extends ChangeNotifier {
 
   ///
   int noteIdProvider = 0;
+
   ///
   NoteModel? noteInfo;
 
@@ -22,9 +23,10 @@ class TaskProvider extends ChangeNotifier {
   List<TaskModel> get getTaskListProvider => listOfTaskProvider;
 
   ///
-  Future<List<TaskModel>> getAllTaskById(int noteId) async {
+  Future<List<TaskModel>> getAllTaskById(NoteModel note) async {
     try {
-      listOfTaskProvider = await _taskService.fetchTaskById(noteId);
+      noteInfo = note;
+      listOfTaskProvider = await _taskService.fetchTaskById(note.id);
       notifyListeners();
 
       return listOfTaskProvider;
@@ -36,22 +38,29 @@ class TaskProvider extends ChangeNotifier {
   }
 
   ///
-  Future<List<TaskModel>> updateTask(List<TaskModel> snap) async {
+  Future<void> updateTask(int taskId, bool checkValue, int noteId) async {
     try {
-      listOfTaskProvider = snap;
+      await _taskService.checkTaskUpdate(taskId, checkValue);
+      listOfTaskProvider = await _taskService.fetchTaskById(noteId);
       notifyListeners();
-
-      return [];
     } catch (e) {
       debugPrint('$e');
     }
-
-    return [];
   }
 
   ///
-  void takeNoteInfo(NoteModel noteInfoK) {
-    noteInfo = noteInfoK;
+  Future<void> deleteTask(int taskId, int noteId) async {
+    try {
+      await _taskService.deleteTask(taskId);
+      listOfTaskProvider = await _taskService.fetchTaskById(noteId);
+    } catch (e) {
+      debugPrint('$e');
+    }
+  }
+
+  ///
+  Future<void> clearListOfTasks() async {
+    listOfTaskProvider.clear();
     notifyListeners();
   }
 }

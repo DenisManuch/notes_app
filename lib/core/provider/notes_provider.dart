@@ -41,8 +41,6 @@ class NotesProvider extends ChangeNotifier {
       debugPrint('Title is empty');
     } else {
       await _noteService.createNote(title.trim(), content.trim(), color);
-      print(_listOfNotesProvider);
-      _listOfNotesProvider.clear();
       _listOfNotesProvider = await _noteService.fetchNotes()..sort(
           (x, y) => y.modifyTime.difference(x.modifyTime).inMilliseconds,
         );

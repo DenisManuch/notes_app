@@ -1,4 +1,3 @@
-
 ///
 class TaskModel {
   ///
@@ -11,9 +10,12 @@ class TaskModel {
   final String task;
 
   ///
+  final int noteId;
+
+  ///
   TaskModel(
     this.id,
-    this.task, {
+    this.task, this.noteId, {
     required this.check,
   });
 

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/core/models/note_model.dart';
 import 'package:notes_app/core/provider/notes_provider.dart';
-import 'package:notes_app/core/provider/task_provider.dart';
 import 'package:notes_app/core/src/constants.dart';
 import 'package:notes_app/ui/widgets/circle_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 ///
 class AddNoteScreen extends StatefulWidget {
@@ -29,10 +27,8 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   Future<void> _saveNote() async {
     final _title = _titleController.text;
     final _content = _contentController.text;
-    await context
-        .read<NotesProvider>()
-        .createNoteProvider(_title, _content, 0);
-    Navigator.pop(context);
+    await context.read<NotesProvider>().createNoteProvider(_title, _content, 0);
+    if (mounted) return Navigator.pop(context);
   }
 
   @override
@@ -98,7 +94,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      //setState(() => _colorTap = index);
+                      debugPrint('');
                     },
                     child: CircleWidget(
                       color: index,
@@ -116,5 +112,10 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
         child: const Text('Save'),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }
