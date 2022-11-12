@@ -55,16 +55,18 @@ class Main extends StatelessWidget {
         '/home/addnote': (context) => const AddNoteScreen(),
       },
       theme: ThemeData(
-          brightness: Brightness.light,
-          primaryColor: const Color(0xFF4859F2),
-          backgroundColor: const Color(0xFF0A0C24),
-          textTheme: const TextTheme(
-            headline1: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-            headline2: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          )),
+        brightness: Brightness.light,
+        primaryColor: const Color(0xFF4859F2),
+        backgroundColor: const Color(0xFF0A0C24),
+        secondaryHeaderColor: Colors.black54,
+        textTheme: const TextTheme(
+          headline1: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+          headline2: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+      ),
     );
   }
 }

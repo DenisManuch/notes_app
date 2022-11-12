@@ -23,11 +23,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   ///
-  Future<void> _detailNotePage(NoteModel note) async {
-    //Provider.of<TaskProvider>(context, listen: false).takeNoteInfo(note);
-   await Provider.of<TaskProvider>(context, listen: false)
-        .getAllTaskById(note);
-    if(mounted) await Navigator.pushNamed(context, '/home/detail');
+  Future<void> _detailNotePage(int listIndex) async {
+    final NoteModel noteInfo =
+        Provider.of<NotesProvider>(context, listen: false)
+            .getNotesProvider[listIndex];
+    Provider.of<TaskProvider>(context, listen: false)
+        .loadListOfTasks(noteInfo, listIndex);
+    if (mounted) await Navigator.pushNamed(context, '/home/detail');
   }
 
   // Future<void> _updateNote(NoteModel note) async {
@@ -46,14 +48,20 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Theme.of(context).backgroundColor,
       drawer: const DrawerWidget(),
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Theme.of(context).secondaryHeaderColor),
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Text("data"),
+        title: AutoSizeText(
+          'data',
+          style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+        ),
         actions: [
           IconButton(
+            //color: Theme.of(context).secondaryHeaderColor,
             onPressed: () => debugPrint(''),
             icon: const Icon(Icons.abc),
           ),
           IconButton(
+            //color: Theme.of(context).secondaryHeaderColor,
             onPressed: () => _signOut(),
             icon: const Icon(Icons.logout),
           ),
@@ -65,7 +73,49 @@ class _HomeScreenState extends State<HomeScreen> {
           final List<NoteModel> note =
               Provider.of<NotesProvider>(context).getNotesProvider;
 
-          return Column(children: note.map(_toNoteWidget).toList());
+          return Dismissible(
+            key: ValueKey(note[index].id),
+            direction: DismissDirection.endToStart,
+            //confirmDismiss: (_) {},
+            //Services.of(context).notesService.deleteNote(note.id),
+            //onDismissed: (_) => setState(() {
+            //  debugPrint(''); // crutch
+            //}),
+            background: Container(
+              padding: const EdgeInsets.all(16.0),
+              //color: Theme.of(context).errorColor,
+              alignment: Alignment.centerRight,
+              child: const Icon(Icons.delete),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                color: colorPallete[note[index].colorNote],
+                child: ListTile(
+                  leading: const Icon(Icons.paste),
+                  trailing: const Icon(Icons.arrow_forward_ios),
+                  title: AutoSizeText(
+                    note[index].title,
+                    style: Theme.of(context).textTheme.headline1,
+                    maxLines: 1,
+                    minFontSize: 20,
+                  ),
+                  // Text(
+                  //   note.title,
+                  //   style: const TextStyle(fontSize: 25),
+                  // ),
+                  subtitle: AutoSizeText(
+                    note[index].content ?? 'description',
+                    maxLines: 5,
+                  ),
+                  //onLongPress: () => _updateNote(note),
+                  onTap: () => _detailNotePage(index),
+                ),
+              ),
+            ),
+          );
+
+          //return Column(children: note.map(_toNoteWidget).toList());
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -76,49 +126,6 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
         child: const Icon(Icons.abc),
-      ),
-    );
-  }
-
-  Widget _toNoteWidget(NoteModel note) {
-    return Dismissible(
-      key: ValueKey(note.id),
-      direction: DismissDirection.endToStart,
-      //confirmDismiss: (_) {},
-      //Services.of(context).notesService.deleteNote(note.id),
-      //onDismissed: (_) => setState(() {
-      //  debugPrint(''); // crutch
-      //}),
-      background: Container(
-        padding: const EdgeInsets.all(16.0),
-        //color: Theme.of(context).errorColor,
-        alignment: Alignment.centerRight,
-        child: const Icon(Icons.delete),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Card(
-          color: colorPallete[note.colorNote],
-          child: ListTile(
-            leading: const Icon(Icons.paste),
-            trailing: const Icon(Icons.arrow_forward_ios),
-            title: AutoSizeText(
-              note.title,
-              style: Theme.of(context).textTheme.headline1,
-              maxLines: 3,
-            ),
-            // Text(
-            //   note.title,
-            //   style: const TextStyle(fontSize: 25),
-            // ),
-            subtitle: AutoSizeText(
-              note.content ?? 'description',
-              maxLines: 5,
-            ),
-            //onLongPress: () => _updateNote(note),
-            onTap: () => _detailNotePage(note),
-          ),
-        ),
       ),
     );
   }

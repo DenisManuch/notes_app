@@ -48,9 +48,11 @@ class NotesProvider extends ChangeNotifier {
     }
   }
 
+  
+
   ///
-  List<NoteModel> updateNoteList(List<NoteModel> snapshotData) {
-    _listOfNotesProvider = snapshotData;
+  List<NoteModel> updateNote(NoteModel noteInfo, int indexList) {
+    _listOfNotesProvider[indexList] = noteInfo;
     notifyListeners();
 
     return [];

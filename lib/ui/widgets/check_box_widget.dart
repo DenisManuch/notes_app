@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_app/core/models/task_model.dart';
 import 'package:notes_app/core/provider/task_provider.dart';
+import 'package:notes_app/core/src/constants.dart';
 import 'package:provider/provider.dart';
 
 ///
@@ -27,26 +28,31 @@ class _CheckBoxState extends State<CheckBoxWidget> {
         Provider.of<TaskProvider>(context).getTaskListProvider;
 
     return ListView.builder(
+      shrinkWrap: true,
+      physics: const ClampingScrollPhysics(),
       itemCount: _listOfTask.length,
       itemBuilder: (BuildContext context, int index) {
         return Row(
           children: [
             Expanded(
-                child: CheckboxListTile(
-              controlAffinity: ListTileControlAffinity.leading,
-              value: _listOfTask[index].check,
-              onChanged: (bool? value) {
-                Provider.of<TaskProvider>(context, listen: false).updateTask(
-                  _listOfTask[index].id,
-                  value ?? false,
-                  _listOfTask[index].noteId,
-                );
-              },
-              title: AutoSizeText(
-                _listOfTask[index].task,
-                maxLines: 1,
+              child: CheckboxListTile(
+                controlAffinity: ListTileControlAffinity.leading,
+                value: _listOfTask[index].check,
+                activeColor: colorPallete[
+                    Provider.of<TaskProvider>(context).noteInfo.colorNote],
+                onChanged: (bool? value) {
+                  Provider.of<TaskProvider>(context, listen: false).updateTask(
+                    _listOfTask[index].id,
+                    value ?? false,
+                    index,
+                  );
+                },
+                title: AutoSizeText(
+                  _listOfTask[index].task,
+                  maxLines: 1,
+                ),
               ),
-            ),)
+            )
           ],
         );
       },

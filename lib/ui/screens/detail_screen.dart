@@ -1,33 +1,132 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:notes_app/core/models/note_model.dart';
+import 'package:notes_app/core/provider/notes_provider.dart';
 import 'package:notes_app/core/provider/task_provider.dart';
+import 'package:notes_app/core/src/constants.dart';
 import 'package:notes_app/ui/widgets/check_box_widget.dart';
 import 'package:provider/provider.dart';
 
 ///
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   ///
   const DetailScreen({super.key});
 
   @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  final _titleController = TextEditingController();
+
+  final _contentController = TextEditingController();
+
+  void _initialTitleAndContent(String title, String content) {
+    _titleController.text = title;
+    _contentController.text = content;
+  }
+
+  void _onChangetTitle(String title) {
+    final _note = Provider.of<TaskProvider>(context, listen: false).noteInfo;
+    final _index =
+        Provider.of<TaskProvider>(context, listen: false).noteIndexProvider;
+    _note.title = title.trim();
+    Provider.of<NotesProvider>(context, listen: false)
+        .updateNote(_note, _index);
+    print(Provider.of<TaskProvider>(context, listen: false).noteInfo);
+  }
+
+  void _onChangetContent(String content) {
+    final _note = Provider.of<TaskProvider>(context, listen: false).noteInfo;
+    final _index =
+        Provider.of<TaskProvider>(context, listen: false).noteIndexProvider;
+    _note.content = content.trim();
+    Provider.of<NotesProvider>(context, listen: false)
+        .updateNote(_note, _index);
+    print(Provider.of<TaskProvider>(context, listen: false).noteInfo);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final _noteInfo = Provider.of<TaskProvider>(context).noteInfo;
+    _initialTitleAndContent(_noteInfo.title, _noteInfo.content ?? '');
 
     return Scaffold(
-      appBar: AppBar(
-        title: AutoSizeText(
-          _noteInfo?.title ?? 'title',
-          maxLines: 2,
+      backgroundColor: colorPallete[_noteInfo.colorNote],
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(Icons.arrow_back_ios_new),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.edit),
+                      )
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      onChanged: (value) =>
+                          _onChangetTitle(_titleController.text),
+                      //initialValue: _noteInfo?.title,
+                      minLines: 1,
+                      maxLines: 5,
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                      controller: _titleController,
+                      decoration: const InputDecoration.collapsed(
+                        hintText: 'Title',
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      onChanged: (value) => _onChangetContent(value),
+                      initialValue: _noteInfo.content,
+                      minLines: 1,
+                      maxLines: 100,
+                      //controller: _contentController,
+                      decoration: const InputDecoration.collapsed(
+                        hintText: 'Content',
+                      ),
+                    ),
+                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: AutoSizeText(
+                  //     _noteInfo?.title ?? 'title',
+                  //     minFontSize: 20,
+                  //     style: TextStyle(
+                  //       color: Theme.of(context).secondaryHeaderColor,
+                  //     ),
+                  //     maxLines: 2,
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: AutoSizeText(_noteInfo?.content ?? ''),
+                  // ),
+                  const Expanded(child: CheckBoxWidget()),
+                ],
+              ),
+            ),
+          ],
         ),
-      ),
-      body: Column(
-        children: const <Widget>[
-          Expanded(child: CheckBoxWidget()),
-        ],
       ),
     );
   }
-  
 }
 
 

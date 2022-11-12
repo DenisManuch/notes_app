@@ -12,7 +12,11 @@ class TaskProvider extends ChangeNotifier {
   int noteIdProvider = 0;
 
   ///
-  NoteModel? noteInfo;
+  int noteIndexProvider = 0;
+
+  ///
+  NoteModel noteInfo =
+      NoteModel(0, 'title', 'content', DateTime.now(), DateTime.now(), 0);
 
   ///
 
@@ -38,10 +42,12 @@ class TaskProvider extends ChangeNotifier {
   }
 
   ///
-  Future<void> updateTask(int taskId, bool checkValue, int noteId) async {
+  Future<void> updateTask(
+      int taskId, bool checkValue, int taskIndex,) async {
     try {
+      listOfTaskProvider[taskIndex].check = checkValue;
+      notifyListeners();
       await _taskService.checkTaskUpdate(taskId, checkValue);
-      listOfTaskProvider = await _taskService.fetchTaskById(noteId);
       notifyListeners();
     } catch (e) {
       debugPrint('$e');
@@ -59,8 +65,19 @@ class TaskProvider extends ChangeNotifier {
   }
 
   ///
-  Future<void> clearListOfTasks() async {
+  void loadListOfTasks(NoteModel noteInfoK, int listIndex) async {
+    noteIndexProvider = 0;
     listOfTaskProvider.clear();
+    try {
+      noteIndexProvider = listIndex;
+      noteInfo = noteInfoK;
+      listOfTaskProvider = await _taskService.fetchTaskById(noteInfoK.id);
+      notifyListeners();
+
+      //return listOfTaskProvider;
+    } catch (e) {
+      debugPrint('$e');
+    }
     notifyListeners();
   }
 }

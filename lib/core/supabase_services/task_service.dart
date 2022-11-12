@@ -20,7 +20,7 @@ class TaskService {
 
       return respons
           .map((dynamic e) => toTask(e as Map<String, dynamic>))
-          .toList();
+          .toList()..sort(((a, b) => a.id.compareTo(b.id)));
     } catch (e) {
       debugPrint('$e');
 
