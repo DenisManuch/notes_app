@@ -4,6 +4,7 @@ import 'package:notes_app/core/models/note_model.dart';
 import 'package:notes_app/core/provider/notes_provider.dart';
 import 'package:notes_app/core/provider/task_provider.dart';
 import 'package:notes_app/core/src/constants.dart';
+import 'package:notes_app/ui/widgets/bottom_navigation_bar_widget.dart';
 import 'package:notes_app/ui/widgets/check_box_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -33,7 +34,6 @@ class _DetailScreenState extends State<DetailScreen> {
     _note.title = title.trim();
     Provider.of<NotesProvider>(context, listen: false)
         .updateNote(_note, _index);
-    print(Provider.of<TaskProvider>(context, listen: false).noteInfo);
   }
 
   void _onChangetContent(String content) {
@@ -43,7 +43,6 @@ class _DetailScreenState extends State<DetailScreen> {
     _note.content = content.trim();
     Provider.of<NotesProvider>(context, listen: false)
         .updateNote(_note, _index);
-    print(Provider.of<TaskProvider>(context, listen: false).noteInfo);
   }
 
   @override
@@ -53,6 +52,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
     return Scaffold(
       backgroundColor: colorPallete[_noteInfo.colorNote],
+      bottomNavigationBar: BottomNavigationBarWidget(),
       body: SafeArea(
         child: Column(
           children: [
@@ -76,10 +76,9 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
+                    child: TextField(
                       onChanged: (value) =>
                           _onChangetTitle(_titleController.text),
-                      //initialValue: _noteInfo?.title,
                       minLines: 1,
                       maxLines: 5,
                       style: const TextStyle(
@@ -103,21 +102,6 @@ class _DetailScreenState extends State<DetailScreen> {
                       ),
                     ),
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: AutoSizeText(
-                  //     _noteInfo?.title ?? 'title',
-                  //     minFontSize: 20,
-                  //     style: TextStyle(
-                  //       color: Theme.of(context).secondaryHeaderColor,
-                  //     ),
-                  //     maxLines: 2,
-                  //   ),
-                  // ),
-                  // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: AutoSizeText(_noteInfo?.content ?? ''),
-                  // ),
                   const Expanded(child: CheckBoxWidget()),
                 ],
               ),

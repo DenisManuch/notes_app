@@ -51,10 +51,8 @@ class NotesProvider extends ChangeNotifier {
   
 
   ///
-  List<NoteModel> updateNote(NoteModel noteInfo, int indexList) {
+  void updateNote(NoteModel noteInfo, int indexList) {
     _listOfNotesProvider[indexList] = noteInfo;
     notifyListeners();
-
-    return [];
   }
 }

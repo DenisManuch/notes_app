@@ -15,18 +15,23 @@ class CircleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        width: 50,
-        height: 50,
-        decoration: BoxDecoration(
-          color: colorPallete[color],
-          shape: BoxShape.circle,
-          border: Border.all(width: 2.0, color: Colors.black38),
-        ),
-        child: color == circleTap ? const Icon(Icons.done) : null,
-      ),
-    );
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+        itemCount: colorPallete.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: colorPallete[index],
+                shape: BoxShape.circle,
+                border: Border.all(width: 2.0, color: Colors.black38),
+              ),
+              child: color == circleTap ? const Icon(Icons.done) : null,
+            ),
+          );
+        },);
   }
 }

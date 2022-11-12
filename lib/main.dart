@@ -58,7 +58,7 @@ class Main extends StatelessWidget {
         brightness: Brightness.light,
         primaryColor: const Color(0xFF4859F2),
         backgroundColor: const Color(0xFF0A0C24),
-        secondaryHeaderColor: Colors.black54,
+        secondaryHeaderColor: Colors.black,
         textTheme: const TextTheme(
           headline1: TextStyle(
             fontSize: 20,

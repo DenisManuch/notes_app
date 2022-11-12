@@ -43,7 +43,10 @@ class TaskProvider extends ChangeNotifier {
 
   ///
   Future<void> updateTask(
-      int taskId, bool checkValue, int taskIndex,) async {
+    int taskId,
+    bool checkValue,
+    int taskIndex,
+  ) async {
     try {
       listOfTaskProvider[taskIndex].check = checkValue;
       notifyListeners();
@@ -52,6 +55,13 @@ class TaskProvider extends ChangeNotifier {
     } catch (e) {
       debugPrint('$e');
     }
+  }
+
+  void addNewTaskProvider() {
+    listOfTaskProvider.add(
+      TaskModel(0, 'task', 0, check: false),
+    );
+    notifyListeners();
   }
 
   ///
