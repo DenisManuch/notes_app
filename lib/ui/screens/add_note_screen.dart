@@ -41,23 +41,25 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
             const SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TextFormField(
-                maxLength: 100,
-                autofocus: true,
-                style: const TextStyle(color: Colors.white),
-                controller: _titleController,
-                //validator: (value) => _validator(value!),
-                decoration: const InputDecoration(
-                  counterStyle: TextStyle(color: Colors.white),
-                  hintText: 'Title',
-                  hintStyle: TextStyle(color: Colors.white),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: TextFormField(
+                  maxLength: 100,
+                  autofocus: true,
+                  style: const TextStyle(color: Colors.white),
+                  controller: _titleController,
+                  //validator: (value) => _validator(value!),
+                  decoration: const InputDecoration(
+                    counterStyle: TextStyle(color: Colors.white),
+                    hintText: 'Title',
+                    hintStyle: TextStyle(color: Colors.white),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
                   ),
                 ),
               ),
@@ -65,23 +67,25 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
             const SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TextFormField(
-                maxLength: 100,
-                maxLines: 5,
-                minLines: 1,
-                style: const TextStyle(color: Colors.white),
-                controller: _contentController,
-                decoration: const InputDecoration(
-                  counterStyle: TextStyle(color: Colors.white),
-                  hintText: 'Description',
-                  hintStyle: TextStyle(color: Colors.white),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: TextFormField(
+                  maxLength: 100,
+                  maxLines: 5,
+                  minLines: 1,
+                  style: const TextStyle(color: Colors.white),
+                  controller: _contentController,
+                  decoration: const InputDecoration(
+                    counterStyle: TextStyle(color: Colors.white),
+                    hintText: 'Description',
+                    hintStyle: TextStyle(color: Colors.white),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
                   ),
                 ),
               ),

@@ -38,8 +38,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    Provider.of<NotesProvider>(context, listen: false).getAllNotes();
+    Provider.of<NotesProvider>(context, listen: false)
+        .getAllNotesFromSupabase();
     super.initState();
+  }
+  void _removeNote(int noteIndex) {
+
   }
 
   @override
@@ -78,9 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
             direction: DismissDirection.endToStart,
             //confirmDismiss: (_) {},
             //Services.of(context).notesService.deleteNote(note.id),
-            //onDismissed: (_) => setState(() {
-            //  debugPrint(''); // crutch
-            //}),
+            onDismissed: (_) =>_removeNote(index),
             background: Container(
               padding: const EdgeInsets.all(16.0),
               //color: Theme.of(context).errorColor,

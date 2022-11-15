@@ -17,9 +17,21 @@ class CheckBoxWidget extends StatefulWidget {
 }
 
 class _CheckBoxState extends State<CheckBoxWidget> {
+  final _taskController = TextEditingController();
   @override
   void initState() {
     super.initState();
+  }
+
+  void _getTasks() {
+    final _note = Provider.of<TaskProvider>(context).noteInfo;
+    Provider.of<TaskProvider>(context, listen: false).getAllTaskById(_note);
+  }
+
+  void _onChangetTask(String value, int listIndex) {
+    Provider.of<TaskProvider>(context, listen: false)
+        .listOfTaskProvider[listIndex]
+        .task = value;
   }
 
   @override
@@ -38,6 +50,7 @@ class _CheckBoxState extends State<CheckBoxWidget> {
               child: CheckboxListTile(
                 controlAffinity: ListTileControlAffinity.leading,
                 value: _listOfTask[index].check,
+                checkColor: Theme.of(context).secondaryHeaderColor,
                 activeColor: colorPallete[
                     Provider.of<TaskProvider>(context).noteInfo.colorNote],
                 onChanged: (bool? value) {
@@ -47,9 +60,30 @@ class _CheckBoxState extends State<CheckBoxWidget> {
                     index,
                   );
                 },
-                title: AutoSizeText(
-                  _listOfTask[index].task,
-                  maxLines: 1,
+                title: Expanded(
+                  child: TextFormField(
+                    onChanged: (value) => _onChangetTask(
+                      value,
+                      index,
+                    ),
+                    initialValue: _listOfTask[index].task,
+                    style: TextStyle(
+                      decoration: _listOfTask[index].check
+                          ? TextDecoration.lineThrough
+                          : TextDecoration.none,
+                      color: _listOfTask[index].check
+                          ? Theme.of(context)
+                              .secondaryHeaderColor
+                              .withOpacity(0.5)
+                          : Theme.of(context).secondaryHeaderColor,
+                    ),
+                    minLines: 1,
+                    maxLines: 100,
+                    //controller: _contentController,
+                    decoration: const InputDecoration.collapsed(
+                      hintText: '',
+                    ),
+                  ),
                 ),
               ),
             )

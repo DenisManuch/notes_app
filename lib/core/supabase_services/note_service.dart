@@ -37,6 +37,34 @@ class NoteService {
   }
 
   ///
+  Future<void> updateNote(
+    String title,
+    String content,
+    int color,
+    int noteId,
+  ) async {
+    try {
+      await supabase.from(notes).update(<String, dynamic>{
+        'title': title,
+        'content': content,
+        'color_note': color,
+        'modify_time': 'now()',
+      }).eq('id', noteId);
+    } catch (e) {
+      debugPrint('$e');
+    }
+  }
+
+  ///
+  Future<void> deleteNote(int noteId) async {
+    try {
+      await supabase.from(notes).delete().eq('id', noteId);
+    } catch (e) {
+      debugPrint('$e');
+    }
+  }
+
+  ///
   NoteModel toNote(Map<String, dynamic> result) {
     return NoteModel(
       int.parse(result['id'].toString()),

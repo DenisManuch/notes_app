@@ -1,6 +1,4 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:notes_app/core/models/note_model.dart';
 import 'package:notes_app/core/provider/notes_provider.dart';
 import 'package:notes_app/core/provider/task_provider.dart';
 import 'package:notes_app/core/src/constants.dart';
@@ -50,9 +48,11 @@ class _DetailScreenState extends State<DetailScreen> {
     final _noteInfo = Provider.of<TaskProvider>(context).noteInfo;
     _initialTitleAndContent(_noteInfo.title, _noteInfo.content ?? '');
 
+    
+
     return Scaffold(
       backgroundColor: colorPallete[_noteInfo.colorNote],
-      bottomNavigationBar: BottomNavigationBarWidget(),
+      bottomNavigationBar: const BottomNavigationBarWidget(),
       body: SafeArea(
         child: Column(
           children: [
@@ -65,6 +65,15 @@ class _DetailScreenState extends State<DetailScreen> {
                       IconButton(
                         onPressed: () {
                           Navigator.pop(context);
+                          Provider.of<NotesProvider>(context, listen: false)
+                              .updateNoteInSupabase(_noteInfo);
+                          Provider.of<NotesProvider>(context, listen: false)
+                              .getAllNotesFromSupabase();
+                          Provider.of<TaskProvider>(context, listen: false)
+                              .upsertTasks();
+                          print(
+                              Provider.of<TaskProvider>(context, listen: false)
+                                  .listOfTaskProvider);
                         },
                         icon: const Icon(Icons.arrow_back_ios_new),
                       ),

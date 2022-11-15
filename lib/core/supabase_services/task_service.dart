@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:notes_app/core/models/task_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -20,7 +22,8 @@ class TaskService {
 
       return respons
           .map((dynamic e) => toTask(e as Map<String, dynamic>))
-          .toList()..sort(((a, b) => a.id.compareTo(b.id)));
+          .toList()
+        ..sort(((a, b) => a.id.compareTo(b.id)));
     } catch (e) {
       debugPrint('$e');
 
@@ -49,6 +52,30 @@ class TaskService {
   }
 
   ///
+  Future<void> upsertTasks(List<TaskModel> listOfTasks) async {
+    try {
+      final List listToMap;
+      print(TaskModel.getListMap(listOfTasks));
+      await supabase.from(task).upsert(TaskModel.getListMap(listOfTasks));
+      // final listToMap = listOfTasks
+      //     .map((e) => TaskModel(e.id, e.task, e.noteId, e.check))
+      //     .toList();
+      // for (var i in listOfTasks) {
+
+      //   print();
+      // }
+      // print(listOfTasks.forEach((element) {
+      //   element.id;
+      // }));
+      //listOfTasks.toJson();
+      //print(listToMap);
+      //await supabase.from(task).upsert();
+    } catch (e) {
+      debugPrint('$e');
+    }
+  }
+
+  ///
   Future<void> deleteTask(int taskId) async {
     try {
       await supabase.from(task).delete().eq('id', taskId);
@@ -61,9 +88,9 @@ class TaskService {
   TaskModel toTask(Map<String, dynamic> result) {
     return TaskModel(
       int.parse(result['id'].toString()),
-      check: result['check_task'] as bool,
       result['text'].toString(),
       int.parse(result['note_id'].toString()),
+      result['check_task'] as bool,
     );
   }
 }

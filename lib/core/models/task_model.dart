@@ -7,7 +7,7 @@ class TaskModel {
   bool check;
 
   ///
-  final String task;
+  String task;
 
   ///
   final int noteId;
@@ -15,19 +15,39 @@ class TaskModel {
   ///
   TaskModel(
     this.id,
-    this.task, this.noteId, {
-    required this.check,
-  });
+    this.task, this.noteId, this.check,);
 
   @override
   String toString() {
-    return 'Todo{id: $id, task: $task, check: $check}';
+    return 'Todo{id: $id, task: $task, check: $check, noteId: $noteId}';
   }
 
   ///
   Map<String, dynamic> toJson() => <String, dynamic>{
         "id": id,
-        "check": check,
+        "check_task": check,
         "task": task,
+        "note_id": noteId,
       };
+///
+      Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'text': task,
+      'check_task': check,
+      'note_id': noteId,
+    };
+  }
+
+  static dynamic getListMap(List<dynamic> items) {
+    if (items == null) {
+      return null;
+    }
+    final List<Map<String, dynamic>> list = [];
+    for (final element in items) {
+      list.add(element.toMap() as Map<String, dynamic>);
+    }
+    
+    return list;
+  }
 }

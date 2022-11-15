@@ -12,14 +12,87 @@ class BottomNavigationBarWidget extends StatelessWidget {
   ///
   const BottomNavigationBarWidget({super.key});
 
-  void _addNewTask(BuildContext context) {
-    Provider.of<TaskProvider>(context, listen: false).addNewTaskProvider();
-  }
+  // void _addNewTask(BuildContext context) {
+  //   Provider.of<TaskProvider>(context, listen: false).addNewTaskProvider();
+  // }
 
   @override
   Widget build(BuildContext context) {
     final NoteModel _noteInfo =
         Provider.of<TaskProvider>(context, listen: false).noteInfo;
+    final _inputFormTask = GlobalKey<FormState>();
+
+    //   void _checkInputText(String taskStr) {
+    //   if (taskStr.isEmpty) {
+    //     return _showSnackBar('Please, enter some text');
+    //   }
+    //   Services.of(context).notesService.createTask(
+    //         taskStr,
+    //         Provider.of<ProviderData>(context, listen: false).getNoteInfo?.id ??
+    //             0,
+    //       );
+    //   Future.delayed(const Duration(milliseconds: 200), () {
+    //     setState(() {
+    //       debugPrint(''); // crutch
+    //     });
+    //   });
+    //   Navigator.of(context).pop();
+    // }
+    ///
+    void _addNewTask(String task) {
+      Provider.of<TaskProvider>(context, listen: false).addNewTaskProvider(task);
+        Navigator.of(context).pop();
+    }
+
+    Future _inputDialog(BuildContext context) async {
+      String taskStr = '';
+      
+
+      return showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('New task'),
+            content: Column(
+              children: [
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: TextFormField(
+                        key: _inputFormTask,
+                        maxLines: 2,
+                        minLines: 1,
+                        maxLength: 100,
+                        autofocus: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+
+                          return null;
+                        },
+                        decoration: const InputDecoration(
+                          labelText: 'Print new task',
+                        ),
+                        onChanged: (value) {
+                          taskStr = value.trim();
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Done'),
+                onPressed: () => _addNewTask(taskStr),
+              ),
+            ],
+          );
+        },
+      );
+    }
 
     return BottomAppBar(
       color: colorPallete[_noteInfo.colorNote],
@@ -30,7 +103,8 @@ class BottomNavigationBarWidget extends StatelessWidget {
           IconButton(
             color: Theme.of(context).secondaryHeaderColor,
             onPressed: () {
-              _addNewTask(context);
+              //_addNewTask(context);
+              _inputDialog(context);
             },
             icon: const Icon(Icons.add_box_outlined),
           ),
@@ -45,7 +119,9 @@ class BottomNavigationBarWidget extends StatelessWidget {
                     height: 150,
                     child: Column(
                       children: [
-                        Expanded(child: CircleWidget(color: _noteInfo.colorNote, circleTap: 0))
+                        Expanded(
+                            child: CircleWidget(
+                                color: _noteInfo.colorNote, circleTap: 0))
                       ],
                     ),
                   );

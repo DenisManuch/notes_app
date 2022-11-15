@@ -30,6 +30,7 @@ class TaskProvider extends ChangeNotifier {
   Future<List<TaskModel>> getAllTaskById(NoteModel note) async {
     try {
       noteInfo = note;
+      print(note.id);
       listOfTaskProvider = await _taskService.fetchTaskById(note.id);
       notifyListeners();
 
@@ -56,19 +57,29 @@ class TaskProvider extends ChangeNotifier {
       debugPrint('$e');
     }
   }
-
-  void addNewTaskProvider() {
-    listOfTaskProvider.add(
-      TaskModel(0, 'task', 0, check: false),
-    );
+///
+  void addNewTaskProvider(String taskText) {
+    // listOfTaskProvider.add(
+    //   TaskModel(0, '1', noteInfo.id, false),
+    // );
+    // notifyListeners();
+    _taskService.createTask(taskText, noteInfo.id);
+    notifyListeners();
+    getAllTaskById(noteInfo);
     notifyListeners();
   }
 
   ///
-  Future<void> deleteTask(int taskId, int noteId) async {
+  void upsertTasks() {
+    _taskService.upsertTasks(listOfTaskProvider);
+  }
+
+  ///
+  Future<void> deleteTask(int taskId) async {
     try {
       await _taskService.deleteTask(taskId);
-      listOfTaskProvider = await _taskService.fetchTaskById(noteId);
+      listOfTaskProvider = await _taskService.fetchTaskById(noteInfo.id);
+      notifyListeners();
     } catch (e) {
       debugPrint('$e');
     }

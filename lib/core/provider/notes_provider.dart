@@ -13,8 +13,8 @@ class NotesProvider extends ChangeNotifier {
   ///
   List<NoteModel> get getNotesProvider => _listOfNotesProvider;
 
-  /// get all notes from
-  Future<List<NoteModel>> getAllNotes() async {
+  /// get all notes from supabase
+  Future<List<NoteModel>> getAllNotesFromSupabase() async {
     try {
       _listOfNotesProvider = await _noteService.fetchNotes()
         ..sort(
@@ -31,6 +31,20 @@ class NotesProvider extends ChangeNotifier {
   }
 
   ///
+  Future<void> updateNoteInSupabase(NoteModel note) async {
+    try {
+      await _noteService.updateNote(
+        note.title,
+        note.content ?? '',
+        note.colorNote,
+        note.id,
+      );
+    } catch (e) {
+      debugPrint('$e');
+    }
+  }
+
+  ///
   Future<void> createNoteProvider(
     String title,
     String content,
@@ -41,14 +55,22 @@ class NotesProvider extends ChangeNotifier {
       debugPrint('Title is empty');
     } else {
       await _noteService.createNote(title.trim(), content.trim(), color);
-      _listOfNotesProvider = await _noteService.fetchNotes()..sort(
-          (x, y) => y.modifyTime.difference(x.modifyTime).inMilliseconds,
+      _listOfNotesProvider = await _noteService.fetchNotes()
+        ..sort(
+          (x, y) => y.id.compareTo(x.id),
         );
       notifyListeners();
     }
   }
 
-  
+  ///
+  void deleteNote(int noteIndex) {
+    _listOfNotesProvider.removeAt(noteIndex);
+    notifyListeners();
+    _noteService.deleteNote(_listOfNotesProvider[noteIndex].id);
+    getAllNotesFromSupabase();
+    notifyListeners();
+  }
 
   ///
   void updateNote(NoteModel noteInfo, int indexList) {

@@ -45,6 +45,7 @@ class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: '/splash',
       routes: {
         '/splash': (context) => const SplashScreen(),
@@ -63,6 +64,7 @@ class Main extends StatelessWidget {
           headline1: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
+            color: Colors.black
           ),
           headline2: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),

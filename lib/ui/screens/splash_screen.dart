@@ -55,7 +55,7 @@ class _ProgressIndicatorWidgetState extends State<ProgressIndicatorWidget> {
         ModalRoute.withName('/login'),
       );
     } else {
-      await context.read<NotesProvider>().getAllNotes();
+      await context.read<NotesProvider>().getAllNotesFromSupabase();
       await Navigator.pushAndRemoveUntil<void>(
         context,
         MaterialPageRoute<void>(
