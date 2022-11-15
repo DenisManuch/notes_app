@@ -64,7 +64,7 @@ class Main extends StatelessWidget {
           headline1: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.black
+            color: Colors.black,
           ),
           headline2: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),

@@ -1,25 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/core/provider/notes_provider.dart';
+import 'package:notes_app/core/provider/task_provider.dart';
 import 'package:notes_app/core/src/constants.dart';
+import 'package:provider/provider.dart';
 
 ///
 class CircleWidget extends StatelessWidget {
   ///
-  final int color;
 
   ///
-  final int circleTap;
-
-  ///
-  const CircleWidget({Key? key, required this.color, required this.circleTap})
+  const CircleWidget({Key? key,})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final noteColor = Provider.of<TaskProvider>(context).noteInfo.colorNote;
+    print(noteColor);
+
     return ListView.builder(
       scrollDirection: Axis.horizontal,
-        itemCount: colorPallete.length,
-        itemBuilder: (context, index) {
-          return Padding(
+      itemCount: colorPallete.length,
+      itemBuilder: (context, index) {
+        return GestureDetector(
+          onTap: () {
+            Provider.of<TaskProvider>(context, listen: false)
+                .updateNoteColor(index);
+            print(noteColor);
+          },
+          child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
               width: 50,
@@ -29,9 +37,11 @@ class CircleWidget extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(width: 2.0, color: Colors.black38),
               ),
-              child: color == circleTap ? const Icon(Icons.done) : null,
+              child: index == noteColor ? const Icon(Icons.done) : null,
             ),
-          );
-        },);
+          ),
+        );
+      },
+    );
   }
 }

@@ -37,7 +37,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
       backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(
         child: Column(
-          children: <Widget>[
+          children: [
             const SizedBox(
               height: 20,
             ),
@@ -90,24 +90,24 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 15,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: colorPallete.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      debugPrint('');
-                    },
-                    child: CircleWidget(
-                      color: index,
-                      circleTap: 5,
-                    ),
-                  );
-                },
-              ),
-            ),
+            // SizedBox(
+            //   height: 15,
+            //   child: ListView.builder(
+            //     scrollDirection: Axis.horizontal,
+            //     itemCount: colorPallete.length,
+            //     itemBuilder: (context, index) {
+            //       return GestureDetector(
+            //         onTap: () {
+            //           debugPrint('');
+            //         },
+            //         child: CircleWidget(
+            //           color: index,
+            //           circleTap: 5,
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),

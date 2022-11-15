@@ -73,7 +73,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               .upsertTasks();
                           print(
                               Provider.of<TaskProvider>(context, listen: false)
-                                  .listOfTaskProvider);
+                                  .listOfTaskProvider,);
                         },
                         icon: const Icon(Icons.arrow_back_ios_new),
                       ),
@@ -91,7 +91,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       minLines: 1,
                       maxLines: 5,
                       style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
+                          fontSize: 20, fontWeight: FontWeight.bold,),
                       controller: _titleController,
                       decoration: const InputDecoration.collapsed(
                         hintText: 'Title',

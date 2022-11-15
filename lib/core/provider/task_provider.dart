@@ -57,16 +57,15 @@ class TaskProvider extends ChangeNotifier {
       debugPrint('$e');
     }
   }
-///
+
+  ///
   void addNewTaskProvider(String taskText) {
-    // listOfTaskProvider.add(
-    //   TaskModel(0, '1', noteInfo.id, false),
-    // );
-    // notifyListeners();
+    listOfTaskProvider.add(TaskModel(0, taskText, noteInfo.id, false));
+    notifyListeners();
     _taskService.createTask(taskText, noteInfo.id);
-    notifyListeners();
+    //notifyListeners();
     getAllTaskById(noteInfo);
-    notifyListeners();
+    //notifyListeners();
   }
 
   ///
@@ -99,6 +98,11 @@ class TaskProvider extends ChangeNotifier {
     } catch (e) {
       debugPrint('$e');
     }
+    notifyListeners();
+  }
+///
+  void updateNoteColor(int tapIndex) {
+    noteInfo.colorNote = tapIndex;
     notifyListeners();
   }
 }

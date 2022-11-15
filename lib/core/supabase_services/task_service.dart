@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:notes_app/core/models/task_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -54,7 +52,6 @@ class TaskService {
   ///
   Future<void> upsertTasks(List<TaskModel> listOfTasks) async {
     try {
-      final List listToMap;
       print(TaskModel.getListMap(listOfTasks));
       await supabase.from(task).upsert(TaskModel.getListMap(listOfTasks));
       // final listToMap = listOfTasks

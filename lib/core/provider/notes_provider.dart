@@ -9,6 +9,8 @@ class NotesProvider extends ChangeNotifier {
 
   ///
   List<NoteModel> _listOfNotesProvider = [];
+  List<NoteModel> _listOfNotesProvider2 = [];
+  bool loading = false;
 
   ///
   List<NoteModel> get getNotesProvider => _listOfNotesProvider;
@@ -16,10 +18,14 @@ class NotesProvider extends ChangeNotifier {
   /// get all notes from supabase
   Future<List<NoteModel>> getAllNotesFromSupabase() async {
     try {
+      loading = true;
+      notifyListeners();
+      //_listOfNotesProvider.clear();
       _listOfNotesProvider = await _noteService.fetchNotes()
         ..sort(
-          (x, y) => y.modifyTime.difference(x.modifyTime).inMilliseconds,
+          (x, y) => y.id.compareTo(x.id),
         );
+      loading = false;
       notifyListeners();
 
       return [];
@@ -57,7 +63,7 @@ class NotesProvider extends ChangeNotifier {
       await _noteService.createNote(title.trim(), content.trim(), color);
       _listOfNotesProvider = await _noteService.fetchNotes()
         ..sort(
-          (x, y) => y.id.compareTo(x.id),
+          (x, y) => y.modifyTime.difference(x.modifyTime).inMilliseconds,
         );
       notifyListeners();
     }
@@ -65,16 +71,24 @@ class NotesProvider extends ChangeNotifier {
 
   ///
   void deleteNote(int noteIndex) {
+    _noteService.deleteNote(_listOfNotesProvider[noteIndex].id);
     _listOfNotesProvider.removeAt(noteIndex);
     notifyListeners();
-    _noteService.deleteNote(_listOfNotesProvider[noteIndex].id);
-    getAllNotesFromSupabase();
-    notifyListeners();
+    //getAllNotesFromSupabase();
+    //notifyListeners();
   }
 
   ///
   void updateNote(NoteModel noteInfo, int indexList) {
     _listOfNotesProvider[indexList] = noteInfo;
+    notifyListeners();
+  }
+
+  ///
+  void longPressForRemuveNote(int index) {
+    _listOfNotesProvider2.add(_listOfNotesProvider[index]);
+
+    print(_listOfNotesProvider2);
     notifyListeners();
   }
 }

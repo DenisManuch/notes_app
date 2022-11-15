@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:notes_app/core/models/note_model.dart';
 import 'package:notes_app/core/provider/task_provider.dart';
 import 'package:notes_app/core/src/constants.dart';
 import 'package:notes_app/ui/widgets/circle_widget.dart';
@@ -18,8 +17,9 @@ class BottomNavigationBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final NoteModel _noteInfo =
-        Provider.of<TaskProvider>(context, listen: false).noteInfo;
+    final provider = Provider.of<TaskProvider>(context, listen: false);
+    // final NoteModel _noteInfo =
+    //     Provider.of<TaskProvider>(context, listen: false).noteInfo;
     final _inputFormTask = GlobalKey<FormState>();
 
     //   void _checkInputText(String taskStr) {
@@ -40,13 +40,13 @@ class BottomNavigationBarWidget extends StatelessWidget {
     // }
     ///
     void _addNewTask(String task) {
-      Provider.of<TaskProvider>(context, listen: false).addNewTaskProvider(task);
-        Navigator.of(context).pop();
+      Provider.of<TaskProvider>(context, listen: false)
+          .addNewTaskProvider(task);
+      Navigator.of(context).pop();
     }
 
     Future _inputDialog(BuildContext context) async {
       String taskStr = '';
-      
 
       return showDialog<void>(
         context: context,
@@ -95,7 +95,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
     }
 
     return BottomAppBar(
-      color: colorPallete[_noteInfo.colorNote],
+      color: colorPallete[provider.noteInfo.colorNote],
       child: Row(
         mainAxisSize: MainAxisSize.max,
         //mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -112,16 +112,16 @@ class BottomNavigationBarWidget extends StatelessWidget {
             color: Theme.of(context).secondaryHeaderColor,
             onPressed: () {
               showModalBottomSheet<void>(
-                backgroundColor: colorPallete[_noteInfo.colorNote],
+                backgroundColor: colorPallete[provider.noteInfo.colorNote],
                 context: context,
                 builder: (BuildContext context) {
                   return SizedBox(
                     height: 150,
                     child: Column(
-                      children: [
+                      children: const [
                         Expanded(
-                            child: CircleWidget(
-                                color: _noteInfo.colorNote, circleTap: 0))
+                          child: CircleWidget(),
+                        )
                       ],
                     ),
                   );
@@ -132,7 +132,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              'Last changes: ${timeago.format(_noteInfo.modifyTime)}',
+              'Last changes: ${timeago.format(provider.noteInfo.modifyTime)}',
               style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
             ),
           ),
@@ -140,7 +140,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
             color: Theme.of(context).secondaryHeaderColor,
             onPressed: () {
               showModalBottomSheet<void>(
-                backgroundColor: colorPallete[_noteInfo.colorNote],
+                backgroundColor: colorPallete[provider.noteInfo.colorNote],
                 context: context,
                 builder: (BuildContext context) {
                   return SizedBox(

@@ -7,7 +7,7 @@ class NoteModel {
   String title;
 
   ///
-  String? content;
+  String content;
 
   ///
   final DateTime createTime;

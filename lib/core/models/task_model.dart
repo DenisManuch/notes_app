@@ -38,11 +38,8 @@ class TaskModel {
       'note_id': noteId,
     };
   }
-
+///
   static dynamic getListMap(List<dynamic> items) {
-    if (items == null) {
-      return null;
-    }
     final List<Map<String, dynamic>> list = [];
     for (final element in items) {
       list.add(element.toMap() as Map<String, dynamic>);

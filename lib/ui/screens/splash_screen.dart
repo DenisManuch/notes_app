@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:notes_app/core/provider/notes_provider.dart';
 import 'package:notes_app/ui/screens/home_screen.dart';
 import 'package:notes_app/ui/screens/login_screen.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 ///
 class SplashScreen extends StatelessWidget {
