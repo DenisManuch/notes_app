@@ -85,7 +85,7 @@ class TaskProvider extends ChangeNotifier {
   }
 
   ///
-  void loadListOfTasks(NoteModel noteInfoK, int listIndex) async {
+  Future<void> loadListOfTasks(NoteModel noteInfoK, int listIndex) async {
     noteIndexProvider = 0;
     listOfTaskProvider.clear();
     try {

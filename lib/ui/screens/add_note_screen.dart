@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/core/models/note_model.dart';
 import 'package:notes_app/core/provider/notes_provider.dart';
-import 'package:notes_app/core/src/constants.dart';
-import 'package:notes_app/ui/widgets/circle_widget.dart';
 import 'package:provider/provider.dart';
 
 ///

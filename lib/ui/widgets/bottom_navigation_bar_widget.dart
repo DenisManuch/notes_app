@@ -53,35 +53,38 @@ class BottomNavigationBarWidget extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('New task'),
-            content: Column(
-              children: [
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: TextFormField(
-                        key: _inputFormTask,
-                        maxLines: 2,
-                        minLines: 1,
-                        maxLength: 100,
-                        autofocus: true,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
+            content: SizedBox(
+              height: 300,
+              child: Column(
+                children: [
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: TextFormField(
+                          key: _inputFormTask,
+                          maxLines: 2,
+                          minLines: 1,
+                          maxLength: 100,
+                          autofocus: true,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter some text';
+                            }
 
-                          return null;
-                        },
-                        decoration: const InputDecoration(
-                          labelText: 'Print new task',
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                            labelText: 'Print new task',
+                          ),
+                          onChanged: (value) {
+                            taskStr = value.trim();
+                          },
                         ),
-                        onChanged: (value) {
-                          taskStr = value.trim();
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              ],
+                      )
+                    ],
+                  ),
+                ],
+              ),
             ),
             actions: <Widget>[
               TextButton(

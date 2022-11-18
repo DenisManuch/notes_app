@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var _loading = Provider.of<NotesProvider>(context).loading;
+    final _loading = Provider.of<NotesProvider>(context).loading;
     
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,

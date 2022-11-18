@@ -41,7 +41,7 @@ class NotesProvider extends ChangeNotifier {
     try {
       await _noteService.updateNote(
         note.title,
-        note.content ?? '',
+        note.content,
         note.colorNote,
         note.id,
       );

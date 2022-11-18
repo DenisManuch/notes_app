@@ -46,7 +46,7 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     final _noteInfo = Provider.of<TaskProvider>(context).noteInfo;
-    _initialTitleAndContent(_noteInfo.title, _noteInfo.content ?? '');
+    _initialTitleAndContent(_noteInfo.title, _noteInfo.content);
 
     
 

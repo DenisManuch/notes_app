@@ -16,16 +16,11 @@ class CheckBoxWidget extends StatefulWidget {
 }
 
 class _CheckBoxState extends State<CheckBoxWidget> {
-  final _taskController = TextEditingController();
   @override
   void initState() {
     super.initState();
   }
 
-  void _getTasks() {
-    final _note = Provider.of<TaskProvider>(context).noteInfo;
-    Provider.of<TaskProvider>(context, listen: false).getAllTaskById(_note);
-  }
 
   void _onChangetTask(String value, int listIndex) {
     Provider.of<TaskProvider>(context, listen: false)
