@@ -30,7 +30,7 @@ class TaskService {
   }
 
   ///
-  Future<void> checkTaskUpdate(int taskId, bool checkValue) async {
+  Future<void> checkTaskUpdate(int taskId, {required bool checkValue}) async {
     try {
       await supabase.from(task).update(<String, dynamic>{
         'check_task': checkValue,
@@ -52,7 +52,6 @@ class TaskService {
   ///
   Future<void> upsertTasks(List<TaskModel> listOfTasks) async {
     try {
-      print(TaskModel.getListMap(listOfTasks));
       await supabase.from(task).upsert(TaskModel.getListMap(listOfTasks));
       // final listToMap = listOfTasks
       //     .map((e) => TaskModel(e.id, e.task, e.noteId, e.check))
@@ -87,7 +86,7 @@ class TaskService {
       int.parse(result['id'].toString()),
       result['text'].toString(),
       int.parse(result['note_id'].toString()),
-      result['check_task'] as bool,
+      check: result['check_task'] as bool,
     );
   }
 }

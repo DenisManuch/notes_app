@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/core/models/note_model.dart';
 import 'package:notes_app/core/provider/notes_provider.dart';
+import 'package:notes_app/core/src/constants.dart';
 import 'package:provider/provider.dart';
 
 ///
@@ -43,7 +44,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: TextFormField(
-                  maxLength: 100,
+                  maxLength: maxLengthK,
                   autofocus: true,
                   style: const TextStyle(color: Colors.white),
                   controller: _titleController,
@@ -69,8 +70,8 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: TextFormField(
-                  maxLength: 100,
-                  maxLines: 5,
+                  maxLength: maxLengthK,
+                  maxLines: maxLinesK,
                   minLines: 1,
                   style: const TextStyle(color: Colors.white),
                   controller: _contentController,

@@ -14,7 +14,7 @@ class CircleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final noteColor = Provider.of<TaskProvider>(context).noteInfo.colorNote;
-    print(noteColor);
+    
 
     return ListView.builder(
       scrollDirection: Axis.horizontal,
@@ -24,17 +24,16 @@ class CircleWidget extends StatelessWidget {
           onTap: () {
             Provider.of<TaskProvider>(context, listen: false)
                 .updateNoteColor(index);
-            print(noteColor);
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              width: 50,
-              height: 50,
+              width: circleK,
+              height: circleK,
               decoration: BoxDecoration(
                 color: colorPallete[index],
                 shape: BoxShape.circle,
-                border: Border.all(width: 2.0, color: Colors.black38),
+                border: Border.all(width: circleBorderK, color: Colors.black38),
               ),
               child: index == noteColor ? const Icon(Icons.done) : null,
             ),

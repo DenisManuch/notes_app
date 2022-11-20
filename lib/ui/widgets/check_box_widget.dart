@@ -50,7 +50,7 @@ class _CheckBoxState extends State<CheckBoxWidget> {
                 onChanged: (bool? value) {
                   Provider.of<TaskProvider>(context, listen: false).updateTask(
                     _listOfTask[index].id,
-                    value ?? false,
+                    checkValue: value ?? false,
                     index,
                   );
                 },
@@ -68,11 +68,11 @@ class _CheckBoxState extends State<CheckBoxWidget> {
                       color: _listOfTask[index].check
                           ? Theme.of(context)
                               .secondaryHeaderColor
-                              .withOpacity(0.5)
+                              .withOpacity(opacityK)
                           : Theme.of(context).secondaryHeaderColor,
                     ),
                     minLines: 1,
-                    maxLines: 100,
+                    maxLines: maxLinesDescriptionK,
                     //controller: _contentController,
                     decoration: const InputDecoration.collapsed(
                       hintText: '',

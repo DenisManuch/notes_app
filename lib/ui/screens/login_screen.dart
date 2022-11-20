@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notes_app/core/provider/auth_provider.dart';
 import 'package:notes_app/core/src/constants.dart';
 import 'package:notes_app/core/supabase_services/auth_service.dart';
+import 'package:notes_app/ui/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
 ///
@@ -18,14 +19,26 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
 
   Future<void> _signIn() async {
-    await Provider.of<AuthProvider>(
+    final bool success = await Provider.of<AuthProvider>(
       context,
       listen: false,
     ).signInWithPasswordProvider(
-      context,
       _emailController.text,
       _passwordController.text,
     );
+    if(success){
+      if(mounted) {
+        return 
+       Navigator.pushAndRemoveUntil<void>(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => const HomeScreen(),
+          ),
+          ModalRoute.withName('/home'),
+        );
+      }
+    }
+    
   }
 
   @override

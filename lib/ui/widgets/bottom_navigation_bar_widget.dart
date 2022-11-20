@@ -22,22 +22,6 @@ class BottomNavigationBarWidget extends StatelessWidget {
     //     Provider.of<TaskProvider>(context, listen: false).noteInfo;
     final _inputFormTask = GlobalKey<FormState>();
 
-    //   void _checkInputText(String taskStr) {
-    //   if (taskStr.isEmpty) {
-    //     return _showSnackBar('Please, enter some text');
-    //   }
-    //   Services.of(context).notesService.createTask(
-    //         taskStr,
-    //         Provider.of<ProviderData>(context, listen: false).getNoteInfo?.id ??
-    //             0,
-    //       );
-    //   Future.delayed(const Duration(milliseconds: 200), () {
-    //     setState(() {
-    //       debugPrint(''); // crutch
-    //     });
-    //   });
-    //   Navigator.of(context).pop();
-    // }
     ///
     void _addNewTask(String task) {
       Provider.of<TaskProvider>(context, listen: false)
@@ -54,7 +38,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
           return AlertDialog(
             title: const Text('New task'),
             content: SizedBox(
-              height: 300,
+              height: showDialogHeightK,
               child: Column(
                 children: [
                   Row(
@@ -62,9 +46,9 @@ class BottomNavigationBarWidget extends StatelessWidget {
                       Expanded(
                         child: TextFormField(
                           key: _inputFormTask,
-                          maxLines: 2,
+                          maxLines: maxLinesK,
                           minLines: 1,
-                          maxLength: 100,
+                          maxLength: maxLengthK,
                           autofocus: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -119,7 +103,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return SizedBox(
-                    height: 150,
+                    height: showModalBottomSheetHeightK,
                     child: Column(
                       children: const [
                         Expanded(
@@ -147,16 +131,18 @@ class BottomNavigationBarWidget extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return SizedBox(
-                    height: 150,
+                    height: showModalBottomSheetHeightK,
                     child: Column(
                       children: [
                         const SizedBox(
                           height: 15,
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            debugPrint('');
+                          },
                           child: SizedBox(
-                            height: 30,
+                            height: sizedBoxHeight,
                             child: Row(
                               children: [
                                 const SizedBox(
@@ -185,7 +171,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
                         ),
                         InkWell(
                           child: SizedBox(
-                            height: 30,
+                            height: sizedBoxHeight,
                             child: Row(
                               children: [
                                 const SizedBox(
@@ -195,7 +181,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
                                   Icons.photo_outlined,
                                   color: Theme.of(context)
                                       .secondaryHeaderColor
-                                      .withOpacity(0.5),
+                                      .withOpacity(opacityK),
                                 ),
                                 const SizedBox(
                                   width: 30,
@@ -205,7 +191,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
                                   style: TextStyle(
                                     color: Theme.of(context)
                                         .secondaryHeaderColor
-                                        .withOpacity(0.5),
+                                        .withOpacity(opacityK),
                                   ),
                                 ),
                               ],
@@ -218,7 +204,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
                         InkWell(
                           //onTap: () => _removeAllTask(),
                           child: SizedBox(
-                            height: 30,
+                            height: sizedBoxHeight,
                             child: Row(
                               children: [
                                 const SizedBox(

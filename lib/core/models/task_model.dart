@@ -15,7 +15,10 @@ class TaskModel {
   ///
   TaskModel(
     this.id,
-    this.task, this.noteId, this.check,);
+    this.task,
+    this.noteId, {
+    required this.check,
+  });
 
   @override
   String toString() {
@@ -29,8 +32,9 @@ class TaskModel {
         "task": task,
         "note_id": noteId,
       };
-///
-      Map<String, dynamic> toMap() {
+
+  ///
+  Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
       'text': task,
@@ -38,11 +42,12 @@ class TaskModel {
       'note_id': noteId,
     };
   }
-///
+
+  ///
   static dynamic getListMap(List<dynamic> items) {
     final List<Map<String, dynamic>> list = [];
     for (final element in items) {
-      list.add(element.toMap() as Map<String, dynamic>);
+      list.add(element as Map<String, dynamic>);
     }
     
     return list;

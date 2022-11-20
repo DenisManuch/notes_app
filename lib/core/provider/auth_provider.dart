@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/core/supabase_services/auth_service.dart';
-import 'package:notes_app/ui/screens/home_screen.dart';
-import 'package:notes_app/ui/screens/login_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 ///
 class AuthProvider extends ChangeNotifier {
-
   ///
   final AuthService _authService = AuthService();
 
@@ -17,8 +14,7 @@ class AuthProvider extends ChangeNotifier {
   static const supabaseSessionKey = 'supabase_session';
 
   ///
-  Future<void> signInWithPasswordProvider(
-    BuildContext context,
+  Future<bool> signInWithPasswordProvider(
     String email,
     String password,
   ) async {
@@ -28,40 +24,34 @@ class AuthProvider extends ChangeNotifier {
       final success =
           await _authService.signInWithPassword(trimEmail, trimPassword);
       if (success) {
-         await Navigator.pushAndRemoveUntil<void>(
-          context,
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) => const HomeScreen(),
-          ),
-          ModalRoute.withName('/home'),
-        );
-        notifyListeners();
+        return true;
       }
     } catch (e) {
       debugPrint('$e');
+
+      return false;
     }
+
+    return false;
   }
 
   ///
-  Future<void> singOut(BuildContext context) async {
+  Future<bool> singOut() async {
     try {
       final success = await _authService.signOut();
 
       if (success) {
-        await Navigator.pushAndRemoveUntil<void>(
-          context,
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) => const LoginScreen(),
-          ),
-          ModalRoute.withName('/login'),
-        );
-        notifyListeners();
+        return true;
       } else {
         debugPrint('Error');
       }
     } catch (e) {
       debugPrint('$e');
+
+      return false;
     }
+
+    return false;
   }
 
   ///

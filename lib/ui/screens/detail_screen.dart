@@ -48,8 +48,6 @@ class _DetailScreenState extends State<DetailScreen> {
     final _noteInfo = Provider.of<TaskProvider>(context).noteInfo;
     _initialTitleAndContent(_noteInfo.title, _noteInfo.content);
 
-    
-
     return Scaffold(
       backgroundColor: colorPallete[_noteInfo.colorNote],
       bottomNavigationBar: const BottomNavigationBarWidget(),
@@ -71,14 +69,13 @@ class _DetailScreenState extends State<DetailScreen> {
                               .getAllNotesFromSupabase();
                           Provider.of<TaskProvider>(context, listen: false)
                               .upsertTasks();
-                          print(
-                              Provider.of<TaskProvider>(context, listen: false)
-                                  .listOfTaskProvider,);
                         },
                         icon: const Icon(Icons.arrow_back_ios_new),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          debugPrint('Edit button');
+                        },
                         icon: const Icon(Icons.edit),
                       )
                     ],
@@ -89,9 +86,11 @@ class _DetailScreenState extends State<DetailScreen> {
                       onChanged: (value) =>
                           _onChangetTitle(_titleController.text),
                       minLines: 1,
-                      maxLines: 5,
+                      maxLines: maxLinesK,
                       style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold,),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                       controller: _titleController,
                       decoration: const InputDecoration.collapsed(
                         hintText: 'Title',
@@ -104,7 +103,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       onChanged: (value) => _onChangetContent(value),
                       initialValue: _noteInfo.content,
                       minLines: 1,
-                      maxLines: 100,
+                      maxLines: maxLengthK,
                       //controller: _contentController,
                       decoration: const InputDecoration.collapsed(
                         hintText: 'Content',
