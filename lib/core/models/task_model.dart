@@ -11,6 +11,14 @@ class TaskModel {
 
   ///
   final int noteId;
+///
+  String idStr = 'id';
+///
+  String checkStr = 'check_task';
+///
+  String taskStr = 'task';
+///
+  String noteStr = 'note_id';
 
   ///
   TaskModel(
@@ -27,19 +35,19 @@ class TaskModel {
 
   ///
   Map<String, dynamic> toJson() => <String, dynamic>{
-        "id": id,
-        "check_task": check,
-        "task": task,
-        "note_id": noteId,
+        idStr: id,
+        checkStr: check,
+        taskStr: task,
+        taskStr: noteId,
       };
 
   ///
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
-      'text': task,
-      'check_task': check,
-      'note_id': noteId,
+      idStr: id,
+      checkStr: check,
+      taskStr: task,
+      taskStr: noteId,
     };
   }
 

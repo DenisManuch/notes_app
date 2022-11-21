@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:help_ukraine_widget/help_ukraine_widget.dart';
 import 'package:notes_app/core/models/note_model.dart';
 import 'package:notes_app/core/provider/auth_provider.dart';
 import 'package:notes_app/core/provider/notes_provider.dart';
@@ -98,49 +99,54 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: MasonryGridView.count(
-        crossAxisCount: axisCountK,
-        mainAxisSpacing: axisSpacingK,
-        crossAxisSpacing: axisSpacingK,
-        itemCount: Provider.of<NotesProvider>(context).getNotesProvider.length,
-        itemBuilder: (context, index) {
-          final List<NoteModel> note =
-              Provider.of<NotesProvider>(context).getNotesProvider;
+      body: OverlayWidget(
+        alignment: Alignment.bottomLeft,
+        overlayWidget: HorizontalHelpWidget(),
+        child: MasonryGridView.count(
+          crossAxisCount: axisCountK,
+          mainAxisSpacing: axisSpacingK,
+          crossAxisSpacing: axisSpacingK,
+          itemCount:
+              Provider.of<NotesProvider>(context).getNotesProvider.length,
+          itemBuilder: (context, index) {
+            final List<NoteModel> note =
+                Provider.of<NotesProvider>(context).getNotesProvider;
 
-          return GestureDetector(
-            onTap: () => _detailNotePage(index),
-            onLongPress: () {
-              Provider.of<NotesProvider>(context, listen: false)
-                  .deleteNote(index);
-            },
-            child: Card(
-              color: colorPallete[note[index].colorNote],
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AutoSizeText(
-                      note[index].title,
-                      style: Theme.of(context).textTheme.headline1,
-                      maxLines: maxLinesK,
-                      //minFontSize: 20,
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    AutoSizeText(
-                      note[index].content,
-                      //style: Theme.of(context).textTheme.headline1,
-                      //maxLines: 10,
-                      //minFontSize: 20,
-                    ),
-                  ],
+            return GestureDetector(
+              onTap: () => _detailNotePage(index),
+              onLongPress: () {
+                Provider.of<NotesProvider>(context, listen: false)
+                    .deleteNote(index);
+              },
+              child: Card(
+                color: colorPallete[note[index].colorNote],
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AutoSizeText(
+                        note[index].title,
+                        style: Theme.of(context).textTheme.headline1,
+                        maxLines: maxLinesK,
+                        //minFontSize: 20,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      AutoSizeText(
+                        note[index].content,
+                        //style: Theme.of(context).textTheme.headline1,
+                        //maxLines: 10,
+                        //minFontSize: 20,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
