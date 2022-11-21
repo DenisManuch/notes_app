@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/core/provider/auth_provider.dart';
 import 'package:notes_app/core/provider/notes_provider.dart';
 import 'package:notes_app/core/provider/task_provider.dart';
 import 'package:notes_app/core/src/constants.dart';
+import 'package:notes_app/ui/screens/login_screen.dart';
 import 'package:notes_app/ui/widgets/bottom_navigation_bar_widget.dart';
 import 'package:notes_app/ui/widgets/check_box_widget.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +21,30 @@ class _DetailScreenState extends State<DetailScreen> {
   final _titleController = TextEditingController();
 
   final _contentController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _checkAuth();
+  }
+
+
+
+  Future<void> _checkAuth() async {
+    final bool _checkVar =
+        await Provider.of<AuthProvider>(context, listen: false).checkAuth();
+    if (_checkVar) {
+      if (mounted) {
+        return Navigator.pushAndRemoveUntil<void>(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => const LoginScreen(),
+          ),
+          ModalRoute.withName('/login'),
+        );
+      }
+    }
+  }
 
   void _initialTitleAndContent(String title, String content) {
     _titleController.text = title;
@@ -120,72 +146,3 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 }
-
-
-///
-// class CheckBoxWidget extends StatefulWidget {
-//   ///
-//   const CheckBoxWidget({super.key});
-
-//   @override
-//   State<CheckBoxWidget> createState() => _CheckBoxWidgetState();
-// }
-
-// class _CheckBoxWidgetState extends State<CheckBoxWidget> {
-//   @override
-//   Widget build(BuildContext context) {
-//     final _noteId = Provider.of<TaskProvider>(context).noteInfo?.id ?? 0;
-
-//     return FutureBuilder<List<TaskModel>>(
-//       future: Provider.of<TaskProvider>(context, listen: false)
-//           .getAllTaskById(_noteId),
-//       builder: (context, snapshot) {
-//         if (snapshot.hasData) {
-//           Provider.of<TaskProvider>(context).listOfTaskProvider =
-//               snapshot.data ?? [];
-//           final _taskList =
-//               Provider.of<TaskProvider>(context).getTaskListProvider;
-
-//           return ListView.builder(
-//             itemCount: _taskList.length,
-//             itemBuilder: (context, index) {
-//               return Dismissible(
-//                 key: ValueKey(_taskList[index].id),
-//                 direction: DismissDirection.endToStart,
-//                 onDismissed: (_) => setState(() {
-//                   debugPrint(''); // crutch
-//                 }),
-//                 child: Padding(
-//                   padding: const EdgeInsets.all(8.0),
-//                   child: Card(
-//                     //color: colorPallete[_taskList[index].colorNote],
-//                     child: ListTile(
-//                       leading: _taskList[index].check
-//                           ? const Icon(Icons.check_box)
-//                           : const Icon(Icons.check_box_outline_blank),
-//                       //trailing: const Icon(Icons.arrow_forward_ios),
-//                       title: Text(
-//                         _taskList[index].task,
-//                         style: const TextStyle(fontSize: 25),
-//                       ),
-//                       //subtitle: Text(note.content ?? ''),
-//                       //onLongPress: () => _editNote(note),
-//                       onTap: () => debugPrint('ddd'),
-//                     ),
-//                   ),
-//                 ),
-//               );
-//             },
-//           );
-//         }
-
-//         return const Center(
-//           child: CircularProgressIndicator(
-//             color: Colors.black,
-//             backgroundColor: Colors.white,
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }

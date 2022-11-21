@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_dynamic_calls
-
 import 'package:flutter/material.dart';
 import 'package:notes_app/ui/screens/home_screen.dart';
 import 'package:notes_app/ui/screens/login_screen.dart';
@@ -40,7 +38,6 @@ class _ProgressIndicatorWidgetState extends State<ProgressIndicatorWidget> {
   }
 
   Future<void> _redirect() async {
-    // await for for the widget to mount
     await Future<dynamic>.delayed(Duration.zero);
 
     final session = supabase.auth.currentSession;

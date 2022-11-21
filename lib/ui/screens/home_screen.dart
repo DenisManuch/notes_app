@@ -19,10 +19,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Future<void> _checkAuth() async {
+    final bool _checkVar =
+        await Provider.of<AuthProvider>(context, listen: false).checkAuth();
+    if (_checkVar) {
+      if (mounted) {
+        return Navigator.pushAndRemoveUntil<void>(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => const LoginScreen(),
+          ),
+          ModalRoute.withName('/login'),
+        );
+      }
+    }
+  }
+
   Future<void> _signOut() async {
     //await Provider.of<NotesProvider>(context, listen: false).getAllNotes();
-    final bool success = await Provider.of<AuthProvider>(context, listen: false)
-        .singOut();
+    final bool success =
+        await Provider.of<AuthProvider>(context, listen: false).singOut();
     if (success) {
       if (mounted) {
         return Navigator.pushAndRemoveUntil<void>(
@@ -52,6 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    _checkAuth();
     Provider.of<NotesProvider>(context, listen: false)
         .getAllNotesFromSupabase();
     super.initState();
@@ -59,23 +76,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _loading = Provider.of<NotesProvider>(context).loading;
-
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       drawer: const DrawerWidget(),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Theme.of(context).secondaryHeaderColor),
         backgroundColor: Theme.of(context).primaryColor,
-        title: _loading
-            ? AutoSizeText(
-                'Loading...',
-                style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
-              )
-            : AutoSizeText(
-                'Note App',
-                style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
-              ),
+        title:
+            Provider.of<TaskProvider>(context).loadingIndicatorState(context),
         actions: [
           IconButton(
             //color: Theme.of(context).secondaryHeaderColor,

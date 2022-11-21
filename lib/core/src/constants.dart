@@ -14,7 +14,7 @@ const double mediaQueryLoginK = 0.5;
 
 ///
 const List<Color> colorPallete = [
-  //Color(0xffffffff), // classic white
+  Color(0xffffffff), // classic white
   Color(0xfff28b81), // light pink
   Color(0xfff7bd02), // yellow
   Color(0xfffbf476), // light yellow

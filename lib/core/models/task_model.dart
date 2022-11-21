@@ -47,9 +47,11 @@ class TaskModel {
   static dynamic getListMap(List<dynamic> items) {
     final List<Map<String, dynamic>> list = [];
     for (final element in items) {
-      list.add(element as Map<String, dynamic>);
+      list.add(
+        element.toString() as Map<String, dynamic>,
+      ); // return to this problem
     }
-    
+
     return list;
   }
 }

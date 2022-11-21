@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_app/core/models/note_model.dart';
 import 'package:notes_app/core/models/task_model.dart';
@@ -13,6 +14,9 @@ class TaskProvider extends ChangeNotifier {
 
   ///
   int noteIndexProvider = 0;
+
+  ///
+  bool loadingIndicator = false;
 
   ///
   NoteModel noteInfo =
@@ -87,22 +91,44 @@ class TaskProvider extends ChangeNotifier {
   Future<void> loadListOfTasks(NoteModel noteInfoK, int listIndex) async {
     noteIndexProvider = 0;
     listOfTaskProvider.clear();
+    //changeLoadingIndicator();
+    loadingIndicator = true;
+    notifyListeners();
     try {
       noteIndexProvider = listIndex;
       noteInfo = noteInfoK;
       listOfTaskProvider = await _taskService.fetchTaskById(noteInfoK.id);
       notifyListeners();
-
-      //return listOfTaskProvider;
+      loadingIndicator = false;
     } catch (e) {
+      loadingIndicator = false;
       debugPrint('$e');
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   ///
   void updateNoteColor(int tapIndex) {
     noteInfo.colorNote = tapIndex;
     notifyListeners();
+  }
+
+  ///
+  void changeLoadingIndicator({required bool load}) {
+    loadingIndicator = load;
+    notifyListeners();
+  }
+
+  ///
+  AutoSizeText loadingIndicatorState(BuildContext context) {
+    return loadingIndicator
+        ? AutoSizeText(
+            'Loading...',
+            style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+          )
+        : AutoSizeText(
+            'Note App',
+            style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+          );
   }
 }

@@ -10,31 +10,27 @@ class NotesProvider extends ChangeNotifier {
   ///
   List<NoteModel> _listOfNotesProvider = [];
   final List<NoteModel> _listOfNotesProvider2 = [];
+
   ///
-  bool loading = false;
+  //bool loading = false;
+  //TaskProvider taskProvider = TaskProvider();
 
   ///
   List<NoteModel> get getNotesProvider => _listOfNotesProvider;
 
   /// get all notes from supabase
-  Future<List<NoteModel>> getAllNotesFromSupabase() async {
+  Future<void> getAllNotesFromSupabase() async {
     try {
-      //loading = true;
       //notifyListeners();
       //_listOfNotesProvider.clear();
       _listOfNotesProvider = await _noteService.fetchNotes()
         ..sort(
           (x, y) => y.id.compareTo(x.id),
         );
-      //loading = false;
       notifyListeners();
-
-      return [];
     } catch (e) {
       debugPrint('$e');
     }
-
-    return [];
   }
 
   ///

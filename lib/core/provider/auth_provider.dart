@@ -14,6 +14,9 @@ class AuthProvider extends ChangeNotifier {
   static const supabaseSessionKey = 'supabase_session';
 
   ///
+  bool _checkAuthVar = false;
+
+  ///
   Future<bool> signInWithPasswordProvider(
     String email,
     String password,
@@ -55,10 +58,15 @@ class AuthProvider extends ChangeNotifier {
   }
 
   ///
-  // Future<bool?> initialAuth() async {
-  //   _clientSession = AuthService().getInitialAuthState();
-  //   notifyListeners();
+  Future<bool> checkAuth() async {
+    final session = supabase.auth.currentSession;
+    if (session == null) {
+      _checkAuthVar = false;
+      notifyListeners();
 
-  //   return _clientSession;
-  // }
+      return _checkAuthVar;
+    }
+    
+    return _checkAuthVar;
+  }
 }
