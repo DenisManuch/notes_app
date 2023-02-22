@@ -17,72 +17,73 @@ class BottomNavigationBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<TaskProvider>(context, listen: false);
+    const provider = Provider.of<TaskProvider>;
     // final NoteModel _noteInfo =
     //     Provider.of<TaskProvider>(context, listen: false).noteInfo;
     final _inputFormTask = GlobalKey<FormState>();
 
     ///
-    void _addNewTask(String task) {
-      Provider.of<TaskProvider>(context, listen: false)
-          .addNewTaskProvider(task);
-      Navigator.of(context).pop();
+    void _addNewTask() {
+      Provider.of<TaskProvider>(context, listen: false).addNewTaskButton();
+      // Provider.of<TaskProvider>(context, listen: false)
+      //     .addNewTaskProvider(task);
+      // Navigator.of(context).pop();
     }
 
-    Future _inputDialog(BuildContext context) async {
-      String taskStr = '';
+    // Future _inputDialog(BuildContext context) async {
+    //   String taskStr = '';
 
-      return showDialog<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('New task'),
-            content: SizedBox(
-              height: showDialogHeightK,
-              child: Column(
-                children: [
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: TextFormField(
-                          key: _inputFormTask,
-                          maxLines: maxLinesK,
-                          minLines: 1,
-                          maxLength: maxLengthK,
-                          autofocus: true,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
+    //   return showDialog<void>(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return AlertDialog(
+    //         title: const Text('New task'),
+    //         content: SizedBox(
+    //           height: showDialogHeightK,
+    //           child: Column(
+    //             children: [
+    //               Row(
+    //                 children: <Widget>[
+    //                   Expanded(
+    //                     child: TextFormField(
+    //                       key: _inputFormTask,
+    //                       maxLines: maxLinesK,
+    //                       minLines: 1,
+    //                       maxLength: maxLengthK,
+    //                       autofocus: true,
+    //                       validator: (value) {
+    //                         if (value == null || value.isEmpty) {
+    //                           return 'Please enter some text';
+    //                         }
 
-                            return null;
-                          },
-                          decoration: const InputDecoration(
-                            labelText: 'Print new task',
-                          ),
-                          onChanged: (value) {
-                            taskStr = value.trim();
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Done'),
-                onPressed: () => _addNewTask(taskStr),
-              ),
-            ],
-          );
-        },
-      );
-    }
+    //                         return null;
+    //                       },
+    //                       decoration: const InputDecoration(
+    //                         labelText: 'Print new task',
+    //                       ),
+    //                       onChanged: (value) {
+    //                         taskStr = value.trim();
+    //                       },
+    //                     ),
+    //                   )
+    //                 ],
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //         actions: <Widget>[
+    //           TextButton(
+    //             child: const Text('Done'),
+    //             onPressed: () => _addNewTask(taskStr),
+    //           ),
+    //         ],
+    //       );
+    //     },
+    //   );
+    // }
 
     return BottomAppBar(
-      color: colorPallete[provider.noteInfo.colorNote],
+      color: colorPallete[provider(context).noteInfo.colorNote],
       child: Row(
         mainAxisSize: MainAxisSize.max,
         //mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -90,8 +91,8 @@ class BottomNavigationBarWidget extends StatelessWidget {
           IconButton(
             color: Theme.of(context).secondaryHeaderColor,
             onPressed: () {
-              //_addNewTask(context);
-              _inputDialog(context);
+              _addNewTask();
+              // _inputDialog(context);
             },
             icon: const Icon(Icons.add_box_outlined),
           ),
@@ -99,17 +100,19 @@ class BottomNavigationBarWidget extends StatelessWidget {
             color: Theme.of(context).secondaryHeaderColor,
             onPressed: () {
               showModalBottomSheet<void>(
-                backgroundColor: colorPallete[provider.noteInfo.colorNote],
                 context: context,
                 builder: (BuildContext context) {
-                  return SizedBox(
-                    height: showModalBottomSheetHeightK,
-                    child: Column(
-                      children: const [
-                        Expanded(
-                          child: CircleWidget(),
-                        )
-                      ],
+                  return Container(
+                    color: colorPallete[provider(context).noteInfo.colorNote],
+                    child: SizedBox(
+                      height: showModalBottomSheetHeightK,
+                      child: Column(
+                        children: const [
+                          Expanded(
+                            child: CircleWidget(),
+                          )
+                        ],
+                      ),
                     ),
                   );
                 },
@@ -119,7 +122,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              'Last changes: ${timeago.format(provider.noteInfo.modifyTime)}',
+              '''Last changes: ${timeago.format(provider(context).noteInfo.modifyTime)}''',
               style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
             ),
           ),
@@ -127,7 +130,8 @@ class BottomNavigationBarWidget extends StatelessWidget {
             color: Theme.of(context).secondaryHeaderColor,
             onPressed: () {
               showModalBottomSheet<void>(
-                backgroundColor: colorPallete[provider.noteInfo.colorNote],
+                backgroundColor: colorPallete[
+                    provider(context, listen: false).noteInfo.colorNote],
                 context: context,
                 builder: (BuildContext context) {
                   return SizedBox(

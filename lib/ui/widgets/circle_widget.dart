@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/core/provider/notes_provider.dart';
 import 'package:notes_app/core/provider/task_provider.dart';
 import 'package:notes_app/core/src/constants.dart';
 import 'package:provider/provider.dart';
@@ -8,13 +9,13 @@ class CircleWidget extends StatelessWidget {
   ///
 
   ///
-  const CircleWidget({Key? key,})
-      : super(key: key);
+  const CircleWidget({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final noteColor = Provider.of<TaskProvider>(context).noteInfo.colorNote;
-    
 
     return ListView.builder(
       scrollDirection: Axis.horizontal,
@@ -23,6 +24,8 @@ class CircleWidget extends StatelessWidget {
         return GestureDetector(
           onTap: () {
             Provider.of<TaskProvider>(context, listen: false)
+                .updateNoteColor(index);
+            Provider.of<NotesProvider>(context, listen: false)
                 .updateNoteColor(index);
           },
           child: Padding(

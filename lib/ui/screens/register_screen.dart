@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/core/src/constants.dart';
+import 'package:notes_app/core/src/main_navigation.dart';
 
 ///
 class RegisterScreen extends StatefulWidget {
@@ -16,7 +17,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/register.png'),
+          image: AssetImage('asset/register.png'),
           fit: BoxFit.cover,
         ),
       ),
@@ -166,7 +167,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(context, '/login');
+                                  Navigator.of(context).pushNamed(
+                                      MainNavigationRoutesNames.loginRoute,);
+                                  // Navigator.pushNamed(context, '/login');
                                   // Navigator.of(context).push(_createRoute());
                                 },
                                 style: const ButtonStyle(),

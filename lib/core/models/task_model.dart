@@ -16,7 +16,7 @@ class TaskModel {
 ///
   String checkStr = 'check_task';
 ///
-  String taskStr = 'task';
+  String taskStr = 'text';
 ///
   String noteStr = 'note_id';
 
@@ -47,7 +47,7 @@ class TaskModel {
       idStr: id,
       checkStr: check,
       taskStr: task,
-      taskStr: noteId,
+      noteStr: noteId,
     };
   }
 

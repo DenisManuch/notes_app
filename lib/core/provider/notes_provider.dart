@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:notes_app/core/models/note_model.dart';
+import 'package:notes_app/core/provider/task_provider.dart';
 import 'package:notes_app/core/supabase_services/note_service.dart';
 
 /// Notes Provider
@@ -8,12 +9,13 @@ class NotesProvider extends ChangeNotifier {
   final NoteService _noteService = NoteService();
 
   ///
-  List<NoteModel> _listOfNotesProvider = [];
-  final List<NoteModel> _listOfNotesProvider2 = [];
+  final TaskProvider _taskProvider = TaskProvider();
 
   ///
-  //bool loading = false;
-  //TaskProvider taskProvider = TaskProvider();
+  List<NoteModel> _listOfNotesProvider = [];
+
+  ///
+  int noteIndexInList = 0;
 
   ///
   List<NoteModel> get getNotesProvider => _listOfNotesProvider;
@@ -21,8 +23,6 @@ class NotesProvider extends ChangeNotifier {
   /// get all notes from supabase
   Future<void> getAllNotesFromSupabase() async {
     try {
-      //notifyListeners();
-      //_listOfNotesProvider.clear();
       _listOfNotesProvider = await _noteService.fetchNotes()
         ..sort(
           (x, y) => y.id.compareTo(x.id),
@@ -54,7 +54,6 @@ class NotesProvider extends ChangeNotifier {
     int color,
   ) async {
     if (title.trim().isEmpty) {
-      //return null;
       debugPrint('Title is empty');
     } else {
       await _noteService.createNote(title.trim(), content.trim(), color);
@@ -76,14 +75,19 @@ class NotesProvider extends ChangeNotifier {
   }
 
   ///
+  void updateNoteColor(int index) {
+    _listOfNotesProvider[noteIndexInList].colorNote = index;
+    notifyListeners();
+  }
+
+  ///
   void updateNote(NoteModel noteInfo, int indexList) {
     _listOfNotesProvider[indexList] = noteInfo;
     notifyListeners();
   }
 
   ///
-  void longPressForRemuveNote(int index) {
-    _listOfNotesProvider2.add(_listOfNotesProvider[index]);
+  void longPressForRemoveNote(int index) {
     notifyListeners();
   }
 }

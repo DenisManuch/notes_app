@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_app/core/models/note_model.dart';
@@ -16,7 +19,16 @@ class TaskProvider extends ChangeNotifier {
   int noteIndexProvider = 0;
 
   ///
+  int taskIndexProvider = 0;
+
+  ///
   bool loadingIndicator = false;
+
+  ///
+  bool _editButton = false;
+
+  ///
+  bool addTaskButton = true;
 
   ///
   NoteModel noteInfo =
@@ -26,6 +38,9 @@ class TaskProvider extends ChangeNotifier {
 
   ///
   List<TaskModel> listOfTaskProvider = [];
+
+  ///
+  bool get getEditButton => _editButton;
 
   ///
   List<TaskModel> get getTaskListProvider => listOfTaskProvider;
@@ -62,10 +77,17 @@ class TaskProvider extends ChangeNotifier {
   }
 
   ///
-  void addNewTaskProvider(String taskText) {
-    listOfTaskProvider.add(TaskModel(0, taskText, noteInfo.id, check: false));
+  void addNewTaskProvider() {
+    // listOfTaskProvider.add(
+    //   TaskModel(
+    //     Random().nextInt(100) + 50,
+    //     '',
+    //     noteInfo.id,
+    //     check: false,
+    //   ),
+    // );
     notifyListeners();
-    _taskService.createTask(taskText, noteInfo.id);
+    _taskService.createTask('', noteInfo.id);
     //notifyListeners();
     getAllTaskById(noteInfo);
     //notifyListeners();
@@ -77,10 +99,15 @@ class TaskProvider extends ChangeNotifier {
   }
 
   ///
-  Future<void> deleteTask(int taskId) async {
+  Future<void> deleteTask(int index) async {
     try {
+      final int taskId = listOfTaskProvider[index].id;
+      listOfTaskProvider.removeAt(index);
+      notifyListeners();
       await _taskService.deleteTask(taskId);
+      listOfTaskProvider.clear();
       listOfTaskProvider = await _taskService.fetchTaskById(noteInfo.id);
+      // await Future<dynamic>.delayed(const Duration(milliseconds: 2000));
       notifyListeners();
     } catch (e) {
       debugPrint('$e');
@@ -130,5 +157,50 @@ class TaskProvider extends ChangeNotifier {
             'Note App',
             style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
           );
+  }
+
+  ///
+  Future<void> editTasksPress() async {
+    // listOfTaskProvider = await _taskService.fetchTaskById(noteInfo.id);
+    _editButton = !_editButton;
+    notifyListeners();
+  }
+
+  ///
+  void editTasksPressEnd() {
+    _editButton = false;
+    //notifyListeners();
+  }
+
+  ///
+  void addNewTaskButton() {
+    addNewTaskProvider();
+    _editButton = true;
+    addTaskButton = false;
+    notifyListeners();
+    Timer(
+      const Duration(seconds: 6),
+      () {
+        addTaskButton = true;
+        notifyListeners();
+      },
+    );
+  }
+
+  ///
+  void updateTaskListIndex(int listIndex) {
+    taskIndexProvider = listIndex;
+    notifyListeners();
+  }
+
+  ///
+  void setTaskListIndex() {
+    taskIndexProvider = listOfTaskProvider.length + 1;
+  }
+
+  ///
+  void lastTaskListIndex() {
+    taskIndexProvider = listOfTaskProvider.length - 1;
+    notifyListeners();
   }
 }

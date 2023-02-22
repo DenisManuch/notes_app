@@ -7,7 +7,9 @@ import 'package:notes_app/core/provider/auth_provider.dart';
 import 'package:notes_app/core/provider/notes_provider.dart';
 import 'package:notes_app/core/provider/task_provider.dart';
 import 'package:notes_app/core/src/constants.dart';
+import 'package:notes_app/core/src/main_navigation.dart';
 import 'package:notes_app/ui/screens/login_screen.dart';
+import 'package:notes_app/ui/widgets/drawer_list_widget.dart';
 import 'package:provider/provider.dart';
 
 ///
@@ -55,17 +57,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
   ///
   Future<void> _detailNotePage(int listIndex) async {
+    Provider.of<NotesProvider>(context, listen: false).noteIndexInList =
+        listIndex;
     final NoteModel noteInfo =
         Provider.of<NotesProvider>(context, listen: false)
             .getNotesProvider[listIndex];
     await Provider.of<TaskProvider>(context, listen: false)
         .loadListOfTasks(noteInfo, listIndex);
-    if (mounted) await Navigator.pushNamed(context, '/home/detail');
+    if (mounted) {
+      await Navigator.of(context).pushNamed(
+        MainNavigationRoutesNames.detailRoute,
+      );
+    }
   }
-
-  // Future<void> _updateNote(NoteModel note) async {
-  //   Provider.of<TaskProvider>(context, listen: false).takeNoteInfo(note);
-  // }
 
   @override
   void initState() {
@@ -88,8 +92,10 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             //color: Theme.of(context).secondaryHeaderColor,
-            onPressed: () => Provider.of<NotesProvider>(context, listen: false)
-                .getAllNotesFromSupabase(),
+            onPressed: () {
+              Provider.of<NotesProvider>(context, listen: false)
+                  .getAllNotesFromSupabase();
+            },
             icon: const Icon(Icons.refresh),
           ),
           IconButton(
@@ -169,9 +175,7 @@ class DrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Drawer(
-      child: Center(
-        child: Text('Drawer'),
-      ),
+      child: DrawerListWidget(),
     );
   }
 }

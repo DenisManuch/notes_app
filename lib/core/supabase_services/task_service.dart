@@ -52,22 +52,11 @@ class TaskService {
   ///
   Future<void> upsertTasks(List<TaskModel> listOfTasks) async {
     try {
-      await supabase.from(task).upsert(TaskModel.getListMap(listOfTasks));
-      // final listToMap = listOfTasks
-      //     .map((e) => TaskModel(e.id, e.task, e.noteId, e.check))
-      //     .toList();
-      // for (var i in listOfTasks) {
-
-      //   print();
-      // }
-      // print(listOfTasks.forEach((element) {
-      //   element.id;
-      // }));
-      //listOfTasks.toJson();
-      //print(listToMap);
-      //await supabase.from(task).upsert();
+      for (final element in listOfTasks) {
+        await supabase.from(task).upsert(element.toMap());
+      }
     } catch (e) {
-      debugPrint('$e');
+      debugPrint('TEst: $e');
     }
   }
 

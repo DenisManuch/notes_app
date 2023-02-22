@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/core/provider/notes_provider.dart';
 import 'package:notes_app/ui/screens/home_screen.dart';
 import 'package:notes_app/ui/screens/login_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -33,14 +34,15 @@ class _ProgressIndicatorWidgetState extends State<ProgressIndicatorWidget> {
   @override
   void initState() {
     _redirect();
-    //Provider.of<NotesProvider>(context, listen: false).getAllNotes();
+    // Provider.of<NotesProvider>(context, listen: false).getAllNotes();
     super.initState();
   }
 
   Future<void> _redirect() async {
-    await Future<dynamic>.delayed(Duration.zero);
+    await Future<dynamic>.delayed(const Duration(milliseconds: 1000));
 
-    final session = supabase.auth.currentSession;
+    // final session = supabase.auth.currentSession;
+    final session = SupabaseAuth.instance.initialSession;
     if (session == null) {
       if (mounted) {
         return Navigator.pushAndRemoveUntil<void>(

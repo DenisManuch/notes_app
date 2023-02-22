@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/core/provider/auth_provider.dart';
 import 'package:notes_app/core/src/constants.dart';
+import 'package:notes_app/core/src/main_navigation.dart';
 import 'package:notes_app/core/supabase_services/auth_service.dart';
 import 'package:notes_app/ui/screens/home_screen.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/login.png'),
+          image: AssetImage('asset/login.png'),
           fit: BoxFit.cover,
         ),
       ),
@@ -138,10 +139,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    '/login/register',
-                                  );
+                                  Navigator.of(context).pushNamed(
+                                      MainNavigationRoutesNames.registerRoute,);
                                 },
                                 style: const ButtonStyle(),
                                 child: const Text(

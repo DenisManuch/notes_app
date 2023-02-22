@@ -18,17 +18,31 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  final _noteProvider = Provider.of<NotesProvider>;
+  final _taskProvider = Provider.of<TaskProvider>;
   final _titleController = TextEditingController();
 
-  final _contentController = TextEditingController();
+  final _contentController = TextEditingController(text: '0');
 
   @override
   void initState() {
     super.initState();
     _checkAuth();
+    _taskProvider(context, listen: false).editTasksPressEnd();
+    _noteProvider(context, listen: false).getAllNotesFromSupabase();
+    _taskProvider(context, listen: false).setTaskListIndex();
   }
 
+  @override
+  void deactivate() {
+    deactivateScreen();
+    super.deactivate();
+  }
 
+  void deactivateScreen() {
+    _noteProvider(context, listen: false)
+        .updateNoteInSupabase(_taskProvider(context, listen: false).noteInfo);
+  }
 
   Future<void> _checkAuth() async {
     final bool _checkVar =
@@ -52,26 +66,22 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 
   void _onChangetTitle(String title) {
-    final _note = Provider.of<TaskProvider>(context, listen: false).noteInfo;
-    final _index =
-        Provider.of<TaskProvider>(context, listen: false).noteIndexProvider;
+    final _note = _taskProvider(context, listen: false).noteInfo;
+    final _index = _taskProvider(context, listen: false).noteIndexProvider;
     _note.title = title.trim();
-    Provider.of<NotesProvider>(context, listen: false)
-        .updateNote(_note, _index);
+    _noteProvider(context, listen: false).updateNote(_note, _index);
   }
 
   void _onChangetContent(String content) {
-    final _note = Provider.of<TaskProvider>(context, listen: false).noteInfo;
-    final _index =
-        Provider.of<TaskProvider>(context, listen: false).noteIndexProvider;
+    final _note = _taskProvider(context, listen: false).noteInfo;
+    final _index = _taskProvider(context, listen: false).noteIndexProvider;
     _note.content = content.trim();
-    Provider.of<NotesProvider>(context, listen: false)
-        .updateNote(_note, _index);
+    _noteProvider(context, listen: false).updateNote(_note, _index);
   }
 
   @override
   Widget build(BuildContext context) {
-    final _noteInfo = Provider.of<TaskProvider>(context).noteInfo;
+    final _noteInfo = _taskProvider(context).noteInfo;
     _initialTitleAndContent(_noteInfo.title, _noteInfo.content);
 
     return Scaffold(
@@ -80,35 +90,27 @@ class _DetailScreenState extends State<DetailScreen> {
       body: SafeArea(
         child: Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    _noteProvider(context, listen: false)
+                        .updateNoteInSupabase(_noteInfo);
+                  },
+                  icon: const Icon(Icons.arrow_back_ios_new),
+                ),
+                const EditButtonWidget(),
+              ],
+            ),
             Expanded(
               child: ListView(
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          Provider.of<NotesProvider>(context, listen: false)
-                              .updateNoteInSupabase(_noteInfo);
-                          Provider.of<NotesProvider>(context, listen: false)
-                              .getAllNotesFromSupabase();
-                          Provider.of<TaskProvider>(context, listen: false)
-                              .upsertTasks();
-                        },
-                        icon: const Icon(Icons.arrow_back_ios_new),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          debugPrint('Edit button');
-                        },
-                        icon: const Icon(Icons.edit),
-                      )
-                    ],
-                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                      enabled: _taskProvider(context).getEditButton,
                       onChanged: (value) =>
                           _onChangetTitle(_titleController.text),
                       minLines: 1,
@@ -126,17 +128,27 @@ class _DetailScreenState extends State<DetailScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
-                      onChanged: (value) => _onChangetContent(value),
-                      initialValue: _noteInfo.content,
+                      enabled: _taskProvider(context).getEditButton,
+                      onChanged: (value) =>
+                          _onChangetContent(_contentController.text),
                       minLines: 1,
                       maxLines: maxLengthK,
-                      //controller: _contentController,
+                      controller: _contentController,
                       decoration: const InputDecoration.collapsed(
-                        hintText: 'Content',
+                        hintText: 'Add description',
                       ),
                     ),
                   ),
                   const Expanded(child: CheckBoxWidget()),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const [
+                      AddNewTaskWidget(),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -144,5 +156,63 @@ class _DetailScreenState extends State<DetailScreen> {
         ),
       ),
     );
+  }
+}
+
+///
+class EditButtonWidget extends StatelessWidget {
+  ///
+  const EditButtonWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    const _noteProvider = Provider.of<NotesProvider>;
+    const _taskProvider = Provider.of<TaskProvider>;
+
+    return _taskProvider(context).getEditButton
+        ? IconButton(
+            onPressed: () {
+              _taskProvider(context, listen: false).upsertTasks();
+              _taskProvider(context, listen: false).editTasksPress();
+              _noteProvider(context, listen: false).updateNoteInSupabase(
+                _taskProvider(context, listen: false).noteInfo,
+              );
+            },
+            icon: const Icon(Icons.check),
+          )
+        : IconButton(
+            onPressed: () {
+              _taskProvider(context, listen: false).editTasksPress();
+            },
+            icon: const Icon(Icons.edit),
+          );
+  }
+}
+
+///
+class AddNewTaskWidget extends StatelessWidget {
+  ///
+  const AddNewTaskWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Provider.of<TaskProvider>(context).addTaskButton
+        ? TextButton.icon(
+            onPressed: () {
+              Provider.of<TaskProvider>(context, listen: false)
+                  .addNewTaskButton();
+              Provider.of<TaskProvider>(context, listen: false)
+                  .lastTaskListIndex();
+            },
+            icon: const Icon(
+              Icons.add,
+              color: Colors.black,
+            ),
+            label: const Text(
+              'add new task',
+              style: TextStyle(color: Colors.black),
+            ),
+          )
+        : const SizedBox();
   }
 }

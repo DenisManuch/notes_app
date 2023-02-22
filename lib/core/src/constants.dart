@@ -32,7 +32,7 @@ const List<Color> colorPallete = [
 const maxLengthK = 100;
 
 ///
-const maxLinesDescriptionK = 100;
+const maxLinesDescriptionK = 10;
 
 ///
 const maxLinesK = 5;
