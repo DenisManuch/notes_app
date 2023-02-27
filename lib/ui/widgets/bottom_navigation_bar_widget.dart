@@ -153,7 +153,8 @@ class BottomNavigationBarWidget extends StatelessWidget {
                                 ),
                                 Icon(
                                   Icons.note_alt_outlined,
-                                  color: Theme.of(context).colorScheme.secondary,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                                 const SizedBox(
                                   width: 30,
@@ -183,7 +184,8 @@ class BottomNavigationBarWidget extends StatelessWidget {
                                 Icon(
                                   Icons.photo_outlined,
                                   color: Theme.of(context)
-                                      .colorScheme.secondary
+                                      .colorScheme
+                                      .secondary
                                       .withOpacity(opacityK),
                                 ),
                                 const SizedBox(
@@ -193,7 +195,8 @@ class BottomNavigationBarWidget extends StatelessWidget {
                                   'Add image',
                                   style: TextStyle(
                                     color: Theme.of(context)
-                                        .colorScheme.secondary
+                                        .colorScheme
+                                        .secondary
                                         .withOpacity(opacityK),
                                   ),
                                 ),
@@ -215,7 +218,8 @@ class BottomNavigationBarWidget extends StatelessWidget {
                                 ),
                                 Icon(
                                   Icons.delete,
-                                  color: Theme.of(context).colorScheme.secondary,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                                 const SizedBox(
                                   width: 30,
