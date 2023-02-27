@@ -101,7 +101,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
               showModalBottomSheet<void>(
                 context: context,
                 builder: (BuildContext context) {
-                  return Container(
+                  return ColoredBox(
                     color: colorPallete[provider(context).noteInfo.colorNote],
                     child: SizedBox(
                       height: showModalBottomSheetHeightK,
