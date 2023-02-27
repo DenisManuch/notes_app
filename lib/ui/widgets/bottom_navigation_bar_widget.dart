@@ -20,7 +20,6 @@ class BottomNavigationBarWidget extends StatelessWidget {
     const provider = Provider.of<TaskProvider>;
     // final NoteModel _noteInfo =
     //     Provider.of<TaskProvider>(context, listen: false).noteInfo;
-    final _inputFormTask = GlobalKey<FormState>();
 
     ///
     void _addNewTask() {

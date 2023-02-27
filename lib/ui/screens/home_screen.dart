@@ -22,21 +22,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Future<void> _checkAuth() async {
-    final bool _checkVar =
-        await Provider.of<AuthProvider>(context, listen: false).checkAuth();
-    if (_checkVar) {
-      if (mounted) {
-        return Navigator.pushAndRemoveUntil<void>(
-          context,
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) => const LoginScreen(),
-          ),
-          ModalRoute.withName('/login'),
-        );
-      }
-    }
-  }
+  // Future<void> _checkAuth() async {
+  //   final bool _checkVar =
+  //       await Provider.of<AuthProvider>(context, listen: false).checkAuth();
+  //   if (_checkVar) {
+  //     if (mounted) {
+  //       return Navigator.pushAndRemoveUntil<void>(
+  //         context,
+  //         MaterialPageRoute<void>(
+  //           builder: (BuildContext context) => const LoginScreen(),
+  //         ),
+  //         ModalRoute.withName('/login'),
+  //       );
+  //     }
+  //   }
+  // }
 
   Future<void> _signOut() async {
     //await Provider.of<NotesProvider>(context, listen: false).getAllNotes();
@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    _checkAuth();
+    //_checkAuth();
     Provider.of<NotesProvider>(context, listen: false)
         .getAllNotesFromSupabase();
     super.initState();

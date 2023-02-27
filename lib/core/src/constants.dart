@@ -60,3 +60,8 @@ const double circleK = 50;
 
 ///
 const double circleBorderK = 2.0;
+
+///
+const int maxLengthTextCheckBox = 500;
+///
+const double drawerListSizedBox = 50;

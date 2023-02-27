@@ -63,7 +63,7 @@ class _CheckBoxState extends State<CheckBoxWidget> {
                 title: TextField(
                   keyboardType: TextInputType.name,
                   controller: _controller,
-                  maxLength: 500,
+                  maxLength: maxLengthTextCheckBox,
                   autofocus: true,
                   enabled: Provider.of<TaskProvider>(context).getEditButton,
                   onTap: () {

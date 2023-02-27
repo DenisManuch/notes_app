@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:notes_app/core/provider/auth_provider.dart';
 import 'package:notes_app/core/provider/notes_provider.dart';
 import 'package:notes_app/core/provider/task_provider.dart';
 import 'package:notes_app/core/src/constants.dart';
-import 'package:notes_app/ui/screens/login_screen.dart';
 import 'package:notes_app/ui/widgets/bottom_navigation_bar_widget.dart';
 import 'package:notes_app/ui/widgets/check_box_widget.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +25,7 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   void initState() {
     super.initState();
-    _checkAuth();
+    //_checkAuth();
     _taskProvider(context, listen: false).editTasksPressEnd();
     _noteProvider(context, listen: false).getAllNotesFromSupabase();
     _taskProvider(context, listen: false).setTaskListIndex();
@@ -44,21 +42,21 @@ class _DetailScreenState extends State<DetailScreen> {
         .updateNoteInSupabase(_taskProvider(context, listen: false).noteInfo);
   }
 
-  Future<void> _checkAuth() async {
-    final bool _checkVar =
-        await Provider.of<AuthProvider>(context, listen: false).checkAuth();
-    if (_checkVar) {
-      if (mounted) {
-        return Navigator.pushAndRemoveUntil<void>(
-          context,
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) => const LoginScreen(),
-          ),
-          ModalRoute.withName('/login'),
-        );
-      }
-    }
-  }
+  // Future<void> _checkAuth() async {
+  //   final bool _checkVar =
+  //       await Provider.of<AuthProvider>(context, listen: false).checkAuth();
+  //   if (_checkVar) {
+  //     if (mounted) {
+  //       return Navigator.pushAndRemoveUntil<void>(
+  //         context,
+  //         MaterialPageRoute<void>(
+  //           builder: (BuildContext context) => const LoginScreen(),
+  //         ),
+  //         ModalRoute.withName('/login'),
+  //       );
+  //     }
+  //   }
+  // }
 
   void _initialTitleAndContent(String title, String content) {
     _titleController.text = title;

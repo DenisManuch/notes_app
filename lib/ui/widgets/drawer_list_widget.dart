@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/core/src/constants.dart';
 import 'package:notes_app/core/src/main_navigation.dart';
+
 
 ///
 class DrawerListWidget extends StatelessWidget {
@@ -24,7 +26,7 @@ class DrawerListWidget extends StatelessWidget {
                                       MainNavigationRoutesNames.homeRoute,);
           },
           child: SizedBox(
-            height: 50,
+            height: drawerListSizedBox,
             child: Row(
               children: const [
                 SizedBox(
@@ -46,11 +48,11 @@ class DrawerListWidget extends StatelessWidget {
           height: 10,
         ),
         InkWell(
-          onTap: () {
-            print('object');
-          },
+          // onTap: () {
+          //   print('object');
+          // },
           child: SizedBox(
-            height: 50,
+            height: drawerListSizedBox,
             child: Row(
               children: const [
                 SizedBox(
@@ -72,11 +74,11 @@ class DrawerListWidget extends StatelessWidget {
           height: 10,
         ), //assignment_outlined
         InkWell(
-          onTap: () {
-            print('object');
-          },
+          // onTap: () {
+          //   print('object');
+          // },
           child: SizedBox(
-            height: 50,
+            height: drawerListSizedBox,
             child: Row(
               children: const [
                 SizedBox(
@@ -98,11 +100,11 @@ class DrawerListWidget extends StatelessWidget {
           height: 10,
         ), //assignment_outlined
         InkWell(
-          onTap: () {
-            print('object');
-          },
+          // onTap: () {
+          //   print('object');
+          // },
           child: SizedBox(
-            height: 50,
+            height: drawerListSizedBox,
             child: Row(
               children: const [
                 SizedBox(
@@ -124,11 +126,11 @@ class DrawerListWidget extends StatelessWidget {
           height: 10,
         ),
         InkWell(
-          onTap: () {
-            print('object');
-          },
+          // onTap: () {
+          //   print('object');
+          // },
           child: SizedBox(
-            height: 50,
+            height: drawerListSizedBox,
             child: Row(
               children: const [
                 SizedBox(
@@ -150,11 +152,11 @@ class DrawerListWidget extends StatelessWidget {
           height: 10,
         ),
         InkWell(
-          onTap: () {
-            print('object');
-          },
+          // onTap: () {
+          //   print('object');
+          // },
           child: SizedBox(
-            height: 50,
+            height: drawerListSizedBox,
             child: Row(
               children: const [
                 SizedBox(

@@ -19,7 +19,7 @@ class MainNavigation {
     '/home/addnote': (context) => const AddNoteScreen(),
   };
   ///
-  String initialRoute(bool isAuth) => isAuth
+  String initialRoute({required bool isAuth}) => isAuth
       ? MainNavigationRoutesNames.homeRoute
       : MainNavigationRoutesNames.loginRoute;
 }

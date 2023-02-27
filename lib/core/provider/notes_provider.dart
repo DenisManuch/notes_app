@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:notes_app/core/models/note_model.dart';
-import 'package:notes_app/core/provider/task_provider.dart';
 import 'package:notes_app/core/supabase_services/note_service.dart';
 
 /// Notes Provider
@@ -8,8 +7,6 @@ class NotesProvider extends ChangeNotifier {
   ///
   final NoteService _noteService = NoteService();
 
-  ///
-  final TaskProvider _taskProvider = TaskProvider();
 
   ///
   List<NoteModel> _listOfNotesProvider = [];
@@ -87,7 +84,7 @@ class NotesProvider extends ChangeNotifier {
   }
 
   ///
-  void longPressForRemoveNote(int index) {
+  void longPressForRemoveNote() {
     notifyListeners();
   }
 }

@@ -43,7 +43,7 @@ class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: mainNavigation.initialRoute(true),
+      initialRoute: mainNavigation.initialRoute(isAuth: true),
       routes: mainNavigation.routes,
       onGenerateRoute: (RouteSettings settings) {
         return MaterialPageRoute<void>(
