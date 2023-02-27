@@ -36,6 +36,7 @@ Future<void> main() async {
 class Main extends StatelessWidget {
   ///
   static final mainNavigation = MainNavigation();
+
   ///
   const Main({Key? key}) : super(key: key);
 
@@ -55,17 +56,19 @@ class Main extends StatelessWidget {
         );
       },
       theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: const Color(0xFF4859F2),
-        backgroundColor: const Color(0xFF0A0C24),
-        secondaryHeaderColor: Colors.black,
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          brightness: Brightness.light,
+          primary: const Color(0xFF4859F2),
+          background: const Color(0xFF0A0C24),
+          secondary: Colors.black,
+        ),
         textTheme: const TextTheme(
-          headline1: TextStyle(
+          displayLarge: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
-          headline2: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          displayMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
     );

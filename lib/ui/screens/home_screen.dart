@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       drawer: const DrawerWidget(),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Theme.of(context).secondaryHeaderColor),
