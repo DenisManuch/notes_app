@@ -85,8 +85,9 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Theme.of(context).colorScheme.background,
       drawer: const DrawerWidget(),
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Theme.of(context).secondaryHeaderColor),
-        backgroundColor: Theme.of(context).primaryColor,
+        iconTheme:
+            IconThemeData(color: Theme.of(context).colorScheme.secondary),
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title:
             Provider.of<TaskProvider>(context).loadingIndicatorState(context),
         actions: [

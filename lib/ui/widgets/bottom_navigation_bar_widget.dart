@@ -88,7 +88,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
         //mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
-            color: Theme.of(context).secondaryHeaderColor,
+            color: Theme.of(context).colorScheme.secondary,
             onPressed: () {
               _addNewTask();
               // _inputDialog(context);
@@ -96,7 +96,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
             icon: const Icon(Icons.add_box_outlined),
           ),
           IconButton(
-            color: Theme.of(context).secondaryHeaderColor,
+            color: Theme.of(context).colorScheme.secondary,
             onPressed: () {
               showModalBottomSheet<void>(
                 context: context,
@@ -122,11 +122,11 @@ class BottomNavigationBarWidget extends StatelessWidget {
           Expanded(
             child: Text(
               '''Last changes: ${timeago.format(provider(context).noteInfo.modifyTime)}''',
-              style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+              style: TextStyle(color: Theme.of(context).colorScheme.secondary),
             ),
           ),
           IconButton(
-            color: Theme.of(context).secondaryHeaderColor,
+            color: Theme.of(context).colorScheme.secondary,
             onPressed: () {
               showModalBottomSheet<void>(
                 backgroundColor: colorPallete[
@@ -153,7 +153,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
                                 ),
                                 Icon(
                                   Icons.note_alt_outlined,
-                                  color: Theme.of(context).secondaryHeaderColor,
+                                  color: Theme.of(context).colorScheme.secondary,
                                 ),
                                 const SizedBox(
                                   width: 30,
@@ -162,7 +162,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
                                   'Edit note',
                                   style: TextStyle(
                                     color:
-                                        Theme.of(context).secondaryHeaderColor,
+                                        Theme.of(context).colorScheme.secondary,
                                   ),
                                 )
                               ],
@@ -183,7 +183,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
                                 Icon(
                                   Icons.photo_outlined,
                                   color: Theme.of(context)
-                                      .secondaryHeaderColor
+                                      .colorScheme.secondary
                                       .withOpacity(opacityK),
                                 ),
                                 const SizedBox(
@@ -193,7 +193,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
                                   'Add image',
                                   style: TextStyle(
                                     color: Theme.of(context)
-                                        .secondaryHeaderColor
+                                        .colorScheme.secondary
                                         .withOpacity(opacityK),
                                   ),
                                 ),
@@ -215,7 +215,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
                                 ),
                                 Icon(
                                   Icons.delete,
-                                  color: Theme.of(context).secondaryHeaderColor,
+                                  color: Theme.of(context).colorScheme.secondary,
                                 ),
                                 const SizedBox(
                                   width: 30,
@@ -224,7 +224,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
                                   'Delete note',
                                   style: TextStyle(
                                     color:
-                                        Theme.of(context).secondaryHeaderColor,
+                                        Theme.of(context).colorScheme.secondary,
                                   ),
                                 ),
                               ],

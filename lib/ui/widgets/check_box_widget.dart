@@ -48,7 +48,7 @@ class _CheckBoxState extends State<CheckBoxWidget> {
                 value: Provider.of<TaskProvider>(context)
                     .getTaskListProvider[index]
                     .check,
-                checkColor: Theme.of(context).secondaryHeaderColor,
+                checkColor: Theme.of(context).colorScheme.secondary,
                 activeColor: colorPallete[
                     Provider.of<TaskProvider>(context).noteInfo.colorNote],
                 onChanged: (bool? value) {
@@ -84,9 +84,9 @@ class _CheckBoxState extends State<CheckBoxWidget> {
                             .getTaskListProvider[index]
                             .check
                         ? Theme.of(context)
-                            .secondaryHeaderColor
+                            .colorScheme.secondary
                             .withOpacity(opacityK)
-                        : Theme.of(context).secondaryHeaderColor,
+                        : Theme.of(context).colorScheme.secondary,
                   ),
                   minLines: 1,
                   maxLines: maxLinesDescriptionK,

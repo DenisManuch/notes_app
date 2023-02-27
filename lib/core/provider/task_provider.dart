@@ -149,11 +149,11 @@ class TaskProvider extends ChangeNotifier {
     return loadingIndicator
         ? AutoSizeText(
             'Loading...',
-            style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+            style: TextStyle(color: Theme.of(context).colorScheme.secondary),
           )
         : AutoSizeText(
             'Note App',
-            style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+            style: TextStyle(color: Theme.of(context).colorScheme.secondary),
           );
   }
 
